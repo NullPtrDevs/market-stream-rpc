@@ -1,0 +1,20 @@
+@startuml startup sequence
+actor User
+User -> main: start application
+
+main -> BinStreamApp: start stream for aggTrade
+
+BinStreamApp -> ConfigurationBuilder: "build app configuration to memory\n using config or app parameters"
+ConfigurationBuilder --> BinStreamApp: Configuration object
+
+BinStreamApp -> BinanceConnectorBuilder: Configuration as input
+BinanceConnectorBuilder --> BinStreamApp: BinanceConnector as output
+
+BinStreamApp -> BinStreamRPCServerBuilder: build BinStreamRPCServer
+BinStreamRPCServerBuilder --> BinStreamApp: BinStreamRPCServer as output
+
+BinStreamApp -> BinanceConnector: start
+BinStreamApp -> BinStreamRPCServer: start
+
+BinStreamApp --> main: result
+@enduml

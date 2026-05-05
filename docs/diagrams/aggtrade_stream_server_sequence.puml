@@ -1,0 +1,18 @@
+@startuml
+queue LockFreeQueue
+
+BinStreamApp -> AggTradeStreamServer: start
+loop while context is here
+    AggTradeStreamServer -> LockFreeQueue: pop Quote
+    alt Quote is available
+        AggTradeStreamServer -> AggTradeStreamServer: take last N messages\n and add them to batch
+        note right: N value should be configured.
+        AggTradeStreamServer -> AggTradeStreamServer: write stream to client
+    end
+end
+
+BinStreamApp -> AggTradeStreamServer: stop
+AggTradeStreamServer -> AggTradeStreamServer: shutdown server
+AggTradeStreamServer -> AggTradeStreamServer: clean resources
+
+@enduml

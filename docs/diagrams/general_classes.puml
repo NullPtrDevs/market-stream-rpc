@@ -1,0 +1,17 @@
+@startuml
+!include_once common_classes.puml
+
+hide empty members
+class BinStreamApp
+{
+    +start(): bool
+}
+
+class ConfigurationBuilder
+{
+    +build(): std::option<BinStreamAppConfig>
+}
+
+ConfigurationBuilder ..> BinStreamAppConfig
+BinStreamApp ..> ConfigurationBuilder
+@enduml

@@ -1,0 +1,77 @@
+@startuml
+' !includesub common_classes.puml!ConfigBASE
+!include_once common_classes.puml
+
+hide empty members
+enum ConnectorType
+{
+    Stream
+    Symbol
+}
+
+annotation QuoteCallback <<std::function<void(Quote&&)>>>
+
+class BinanceConnectorBuilder
+{
+    + <<create>> BinanceConnectorBuilder(logger: spdlogger,
+                                        config: BinStreamAppConfig)
+    +build(type: ConnectorType): IBinanceConnector
+}
+
+abstract class IBinanceConnector
+{
+    +start()
+    +stop()
+}
+class BinanceStreamConnector
+{
+    + <<create>> BinanceStreamConnector(logger: spdlogger,
+                                         symbol: string)
+    +start() override
+    +stop() override
+
+    +set_callback(cb: QuoteCallback)
+}
+
+class BinanceSymbolConnector
+{
+    + <<create>> BinanceSymbolConnector(logger: spdlogger)
+    +start() override
+    +stop() override
+}
+
+IBinanceConnector <|-- BinanceStreamConnector
+IBinanceConnector <|-- BinanceSymbolConnector
+
+BinanceConnectorBuilder ..> BinanceStreamConnector : <<create>>
+BinanceConnectorBuilder ..> BinanceSymbolConnector : <<create>>
+
+BinanceConnectorBuilder ..> IBinanceConnector : <<use>>
+BinanceConnectorBuilder ..> BinStreamAppConfig : <<use>>
+
+note top of QuoteCallback
+    This callback will be called each time
+    when connector got stream data.
+end note
+
+note left of BinanceConnectorBuilder::build
+    Build instance based on ConnectorType.
+end note
+
+note left of BinanceStreamConnector::start
+    Established connection with binance
+    and start a thread.
+end note
+
+note left of BinanceStreamConnector::stop
+    Stop the thread and cleanup.
+end note
+
+note left of BinanceStreamConnector::set_callback
+    Setup callback for data stream,
+    see QuoteCallback note.
+end note
+
+note "Regarding setup function for QuoteCallback \n is under discussion." as N1
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+' !includesub common_classes.puml!ConfigBASE
+!include_once common_classes.puml
+
+hide empty members
+
+class IBinStreamRPCServer
+{
+    +start()
+    +stop()
+}
+
+class ProtoGeneratedService
+{
+    +subscribe()
+}
+
+class BinStreamRPCServerBuilder
+{
+    +build(logger: spdlogger,
+            config: BinStreamAppConfig): IBinStreamRPCServer
+}
+
+class AggTradeStreamServer
+{
+    +start() override
+    +stop() override
+
+    +subscribe() override
+}
+
+IBinStreamRPCServer <|-- AggTradeStreamServer
+ProtoGeneratedService <|-- AggTradeStreamServer
+
+BinStreamRPCServerBuilder ..> AggTradeStreamServer : <<create>>
+BinStreamRPCServerBuilder ..> IBinStreamRPCServer : <<use>>
+BinStreamRPCServerBuilder ..> ProtoGeneratedService : <<use>>
+
+BinStreamRPCServerBuilder ..> BinStreamAppConfig : <<use>>
+
+
+note right of BinStreamRPCServerBuilder
+    This builder create and register instance
+    of proto generated class.
+end note
+note left of ProtoGeneratedService
+    This is proto generated class.
+    Each implementation of IBinStreamRPCServer
+    should also implement generated class to support
+    RPC mechanism.
+end note
+@enduml

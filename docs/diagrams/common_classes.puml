@@ -1,0 +1,7 @@
+@startuml
+class BinStreamAppConfig
+{
+    binance_stream_host: std::string
+    binance_stream_port: std::string
+}
+@enduml

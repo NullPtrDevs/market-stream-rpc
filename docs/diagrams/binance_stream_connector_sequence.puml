@@ -1,0 +1,17 @@
+@startuml
+queue LockFreeQueue
+
+BinStreamApp -> BinanceStreamConnector: start
+BinanceStreamConnector -> BinanceStreamConnector: setup websocket and\n start thread to read stream
+loop while binance stream available(blocking read)
+    alt got binance data
+        BinanceStreamConnector -> BinanceStreamConnector: adapt json to proto format
+        BinanceStreamConnector -> LockFreeQueue: call callback
+        note right: Callback can push Quote to the queue.
+    end
+end
+
+BinStreamApp -> BinanceStreamConnector: stop
+BinanceStreamConnector -> BinanceStreamConnector: shutdown and close web socket
+
+@enduml
