@@ -3,7 +3,7 @@ queue LockFreeQueue
 
 BinStreamApp -> AggTradeStreamServer: start
 loop while context is here
-    AggTradeStreamServer -> LockFreeQueue: pop Quote
+    AggTradeStreamServer -> LockFreeQueue: pop
     alt Quote is available
         AggTradeStreamServer -> AggTradeStreamServer: take last N messages\n and add them to batch
         note right: N value should be configured.
