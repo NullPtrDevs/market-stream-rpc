@@ -30,7 +30,7 @@ class AggTradeStreamServer
 }
 
 IBinStreamRPCServer <|-- AggTradeStreamServer
-ProtoGeneratedService <|-- AggTradeStreamServer
+ProtoGeneratedService --o AggTradeStreamServer
 
 BinStreamRPCServerBuilder ..> AggTradeStreamServer : <<create>>
 BinStreamRPCServerBuilder ..> IBinStreamRPCServer : <<use>>
