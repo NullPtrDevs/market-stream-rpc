@@ -1,1 +1,11 @@
-# Here would be stored configuration for WebSocket and gRPC
+app:
+  name: "market-stream-rpc"
+  version: "0.1.0"
+
+grpc_server:
+  host: "0.0.0.0"
+  port: "50051"
+
+binance_connector:
+  stream_link: "link"
+  port: "443"
