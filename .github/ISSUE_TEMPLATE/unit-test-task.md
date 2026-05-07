@@ -2,7 +2,7 @@
 name: Unit test task
 about: This is template for unit tests tasks.
 title: "[UT]"
-labels: ''
+labels: unit tests
 assignees: ''
 
 ---

@@ -1,8 +1,8 @@
 ---
-name: Implementation template
+name: Code development issue
 about: Development issue
-title: ''
-labels: ''
+title: "[Dev]"
+labels: code implementation, feature
 assignees: ''
 
 ---
