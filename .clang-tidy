@@ -1,0 +1,2 @@
+Checks: 'bugprone-*,performance-*,modernize-*,readability-*,cppcoreguidelines-*,readability-convert-member-functions-to-static'
+WarningsAsErrors: ''

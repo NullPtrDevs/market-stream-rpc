@@ -1,0 +1,56 @@
+# build
+build/
+build/*
+bin/
+lib/
+out/
+
+# temporary files of CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/ ;
+cmake_install.cmake
+install_manifest.txt ;
+CompileCommand.json
+.cmake/
+
+# Protocols and generated gRPCC
+*.pb.cc
+*.pb.h
+
+# VS Code
+.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/cmake-kits.json
+.history/
+
+# Compiling and debugging
+*.o
+*.obj
+*.exe
+*.a
+*.lib
+*.so
+*.dll
+*.pdb
+*.ilk
+*.exp
+
+# Tests and coverage
+*.gcno
+*.gcda
+*.gcov
+coverage.xml
+_tests/
+
+# Logs and temporary system files
+*.log
+.DS_Store
+Thumbs.db
+*.swp
+
+# Files and folders which download automatically
+cmake

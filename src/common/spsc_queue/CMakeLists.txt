@@ -1,0 +1,3 @@
+add_library(spsc_lock_free_queue INTERFACE)
+
+target_include_directories(spsc_lock_free_queue INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
