@@ -4,6 +4,8 @@ build/*
 bin/
 lib/
 out/
+coverage/
+coverage_report/
 
 # temporary files of CMake
 CMakeCache.txt
