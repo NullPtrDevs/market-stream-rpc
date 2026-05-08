@@ -1,5 +1,5 @@
 ---
-name: Code development issue
+name: Code development task
 about: Development issue
 title: "[Dev]"
 labels: code implementation, feature
