@@ -11,9 +11,10 @@ show_help() {
     echo "Options:"
     echo "  -ts, --tsanitize    Build with thread sanitizers"
     echo "  -as, --asanitize    Build with thread sanitizers"
-    echo "  -r, --release     Build in Release mode (default is Debug)"
-    echo "  -c, --coverage    Generate coverage"
-    echo "  -h, --help        Show this help message"
+    echo "  -r, --release       Build in Release mode (default is Debug)"
+    echo "  -gh, --html         Generate html report"
+    echo "  -c, --coverage      Generate coverage"
+    echo "  -h, --help          Show this help message"
     echo "-------------------------------------------------------------------"
     echo "Please be aware that flag -c can conflict with -s."
     echo "Sanitizer can recognize coverage library as an error. Better don't use them both."
@@ -38,6 +39,7 @@ COVERAGE_DIR="$PROJECT_ROOT/coverage_report"
 USE_THREAD_SANITIZER="OFF"
 USE_ADDRESS_SANITIZER="OFF"
 USE_COVERAGE="OFF"
+USE_COVERAGE_HTML="OFF"
 BUILD_TYPE="Debug"
 
 echo "--------------------------------Setup coverage dir---------------------------" 
@@ -53,6 +55,7 @@ while [[ "$#" -gt 0 ]]; do
         -as|--asanitize) USE_ADDRESS_SANITIZER="ON"; shift ;;
         -r|--release) BUILD_TYPE="Release"; shift ;;
         -c|--coverage) USE_COVERAGE="ON"; shift ;;
+        -gh|--html) USE_COVERAGE_HTML="ON"; shift ;;
         -h|--help) show_help ;;
         *) echo "Unknown parameter $1"; exit 1 ;;
     esac
@@ -68,6 +71,7 @@ echo "Build Type: $BUILD_TYPE"
 echo "Thread sanitizer:  $USE_THREAD_SANITIZER"
 echo "Thread sanitizer:  $USE_ADDRESS_SANITIZER"
 echo "Use coverage:  $USE_COVERAGE"
+echo "Generate coverage html:  $USE_COVERAGE_HTML"
 echo "-------------------------------------------------------"
 
 echo "--------------------------------Start build---------------------------" 
@@ -112,16 +116,19 @@ if [ "$USE_COVERAGE" == "ON" ]; then
     lcov --capture --directory "${BUILD_DIR}" --output-file "${COVERAGE_DIR}/all_data.info" --ignore-errors mismatch
     lcov --extract "${COVERAGE_DIR}/all_data.info" '*/src/*' --output-file "${COVERAGE_DIR}/src_only.info" --ignore-errors unused
     lcov --remove "${COVERAGE_DIR}/src_only.info" '*/tests/*' --output-file "${COVERAGE_DIR}/final_coverage.info" --ignore-errors unused
-    genhtml "${COVERAGE_DIR}/final_coverage.info" --output-directory "${COVERAGE_DIR}/html" --ignore-errors mismatch
+    if [ "$USE_COVERAGE_HTML" == "ON" ]; then
+        genhtml "${COVERAGE_DIR}/final_coverage.info" --output-directory "${COVERAGE_DIR}/html" --ignore-errors mismatch
 
-    echo "--------------------------------Done---------------------------"
-    if command -v xdg-open > /dev/null; then
-        xdg-open "${COVERAGE_DIR}/html/index.html"
-    elif command -v open > /dev/null; then
-        open "${COVERAGE_DIR}/html/index.html"
-    else
-        echo "Report generated at: ${COVERAGE_DIR}/html/index.html"
+        if command -v xdg-open > /dev/null; then
+            xdg-open "${COVERAGE_DIR}/html/index.html"
+        elif command -v open > /dev/null; then
+            open "${COVERAGE_DIR}/html/index.html"
+        else
+            echo "Report generated at: ${COVERAGE_DIR}/html/index.html"
+        fi
     fi
 
 fi
+
+echo "--------------------------------Done---------------------------"
 
