@@ -3,6 +3,7 @@ coverage:
     patch:
       default:
         target: 90%
+        threshold: 1%  # the leniency in hitting the target
 comment:                  #this is a top-level key
   layout: " diff, flags, files"
   behavior: default
