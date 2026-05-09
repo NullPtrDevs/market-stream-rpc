@@ -6,7 +6,7 @@ set -e
 
 show_help() {
     echo "Build project, run tests and generate coverage report"
-    echo "Usage: ./build.sh [options]"
+    echo "Usage: build_and_run_tests.sh [options]"
     echo "-------------------------------------------------------------------"
     echo "Options:"
     echo "  -ts, --tsanitize    Build with thread sanitizers"
