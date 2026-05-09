@@ -1,39 +1,8 @@
-name: C++ CI with Coverage
-
-on:
-  push:
-    branches: "**"
-  pull_request:
-    branches: "**"
-
-jobs:
-  build-and-test:
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake lcov libgtest-dev g++-13
-
-      - name: Run Build and Tests
-        env:
-          CC: gcc-13
-          CXX: g++-13
-        run: |
-          chmod +x ./tools/build_and_run_tests.sh
-          ./tools/build_and_run_tests.sh -c
-
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          file: ${{github.workspace}}/coverage_report/final_coverage.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
+coverage:
+  status:
+    patch:
+      default:
+        target: 90%
 comment:                  #this is a top-level key
   layout: " diff, flags, files"
   behavior: default
