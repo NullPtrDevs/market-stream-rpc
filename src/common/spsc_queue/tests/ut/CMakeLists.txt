@@ -5,7 +5,6 @@ target_link_libraries(test_lock_free_queue PRIVATE GTest::gtest_main spsc_lock_f
 option(ENABLE_THREAD_SANITIZER "Enable thread sanitizer" OFF)
 option(ENABLE_ADDRESS_SANITIZER "Enable thread sanitizer" OFF)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    message(INFO "-------------------------Debug----------------")
     if(ENABLE_THREAD_SANITIZER STREQUAL "ON")
         message(INFO "-------------------------Thread sanitizer ON----------------")
         target_compile_options(test_lock_free_queue PRIVATE -fsanitize=thread -O0 -g)

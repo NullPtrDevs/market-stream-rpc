@@ -1,0 +1,4 @@
+add_executable(benchmark_spsc_queue benchmark_spsc_queue.cpp)
+
+target_include_directories(benchmark_spsc_queue PRIVATE "${PROJECT_SOURCE_DIR}/common")
+target_link_libraries(benchmark_spsc_queue PRIVATE benchmark::benchmark spsc_lock_free_queue)
