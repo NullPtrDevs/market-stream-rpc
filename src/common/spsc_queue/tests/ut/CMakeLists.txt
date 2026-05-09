@@ -1,0 +1,23 @@
+add_executable(test_lock_free_queue test_lock_free_queue.cpp)
+
+target_link_libraries(test_lock_free_queue PRIVATE GTest::gtest_main spsc_lock_free_queue)
+
+option(ENABLE_THREAD_SANITIZER "Enable thread sanitizer" OFF)
+option(ENABLE_ADDRESS_SANITIZER "Enable thread sanitizer" OFF)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(INFO "-------------------------Debug----------------")
+    if(ENABLE_THREAD_SANITIZER STREQUAL "ON")
+        message(INFO "-------------------------Thread sanitizer ON----------------")
+        target_compile_options(test_lock_free_queue PRIVATE -fsanitize=thread -O0 -g)
+        target_link_libraries(test_lock_free_queue PRIVATE -fsanitize=thread)
+    elseif(ENABLE_ADDRESS_SANITIZER STREQUAL "ON")
+        message(INFO "-------------------------Address sanitizer ON----------------")
+        target_compile_options(test_lock_free_queue PRIVATE -fsanitize=address -O0 -g)
+        target_link_libraries(test_lock_free_queue PRIVATE -fsanitize=address)
+    else()
+        target_compile_options(test_lock_free_queue PRIVATE --coverage -O0 -g)
+        target_link_libraries(test_lock_free_queue PRIVATE --coverage)
+    endif()
+
+endif()
+add_test(NAME SPSCLockFreeQueue_Test COMMAND test_lock_free_queue)

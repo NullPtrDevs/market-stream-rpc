@@ -2,7 +2,6 @@
 
 #include <array>
 #include <atomic>
-#include <new>
 #include <optional>
 
 /**
@@ -17,6 +16,7 @@
 
 namespace spsc_queue
 {
+constexpr int32_t ALIGN_VALUE{64};
 constexpr int32_t DEFAULT_QUEUE_CAPACITY{2048};
 
 template <std::size_t N>
@@ -110,12 +110,12 @@ private:
      * @brief Atomic head index where the producer inserts new items.
      * Aligned to prevent false sharing with the tail index.
      */
-    alignas(std::hardware_destructive_interference_size) std::atomic<size_t> head_{0};
+    alignas(ALIGN_VALUE) std::atomic<size_t> head_{0};
     /**
      * @brief Atomic tail index where the consumer retrieves items.
      * Aligned to prevent false sharing with the head index.
      */
-    alignas(std::hardware_destructive_interference_size) std::atomic<size_t> tail_{0};
+    alignas(ALIGN_VALUE) std::atomic<size_t> tail_{0};
 };
 
 }  // namespace spsc_queue
