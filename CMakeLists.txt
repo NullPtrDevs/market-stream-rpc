@@ -7,15 +7,19 @@ project(market-stream-rpc VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Project configuration
+# Install all dependent libraries
 
-find_package(GTest REQUIRED)
+include(cmake_deps/Dependencies.cmake)
 
 # Sources
 
 add_subdirectory(src/common/spsc_queue)
 
-# Tests
+# Unit tests
 
 enable_testing()
 add_subdirectory(src/common/spsc_queue/tests/ut)
+
+# Benchmark tests
+
+add_subdirectory(src/common/spsc_queue/tests/benchmark)
