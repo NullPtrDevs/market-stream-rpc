@@ -9,6 +9,7 @@
  *
  * This class uses atomic operations with strict memory ordering and cache-line
  * alignment to prevent false sharing and ensure high throughput.
+ * IMPORTANT! Do not use this queue for multiplay producers and consumers.
  *
  * @tparam T The type of elements stored in the queue.
  * @tparam Capacity The maximum number of elements. Must be a power of two.

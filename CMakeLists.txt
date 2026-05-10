@@ -23,3 +23,7 @@ add_subdirectory(src/common/spsc_queue/tests/ut)
 # Benchmark tests
 
 add_subdirectory(src/common/spsc_queue/tests/benchmark)
+
+add_executable(main_cpp src/main.cpp)
+target_link_directories(main_cpp PRIVATE src/common/spsc_queue)
+target_link_libraries(main_cpp PRIVATE spsc_lock_free_queue)

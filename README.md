@@ -1,1 +1,2 @@
 [![codecov](https://codecov.io/gh/NullPtrDevs/market-stream-rpc/branch/master/graph/badge.svg?token=MG5S44CJ75)](https://codecov.io/gh/NullPtrDevs/market-stream-rpc)
+[![cpp-linter](https://github.com/cpp-linter/cpp-linter-action/actions/workflows/cpp-linter.yml/badge.svg)](https://github.com/cpp-linter/cpp-linter-action/actions/workflows/cpp-linter.yml)

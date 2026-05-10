@@ -31,7 +31,9 @@ build_project()
         LDFLAGS="--coverage"
     fi
 
-    cmake -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
+    cmake -G "Ninja" \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
         -DENABLE_THREAD_SANITIZER="$BUILD_THREAD_SANITIZE" \
         -DENABLE_ADDRESS_SANITIZER="$BUILD_ADDRESS_SANITIZE" \
         -DCMAKE_CXX_FLAGS="$CXX_FLAGS" \
@@ -53,7 +55,7 @@ show_help() {
     echo "  -r, --release     Build in Release mode (default: Debug)"
     echo "  -h, --help        Show this help message"
     echo ""
-    echo "Example: ./build_lib.sh --clean --coverage"
+    echo "Example: ./build.sh --clean --coverage"
     exit 0
 }
 
