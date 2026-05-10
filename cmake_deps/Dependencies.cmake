@@ -19,22 +19,24 @@ endif()
 
 include("${CPM_LOCAL_PATH}")
 
-# Check for GTest
-
-find_package(GTest REQUIRED)
+# find_package(GTest REQUIRED)
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG v1.17.0
+  SYSTEM YES
+  FIND_PACKAGE_ARGUMENTS CONFIG
+)
 
 # Install google benchmark
 
-find_package(benchmark CONFIG QUIET)
-if(NOT benchmark_FOUND)
-    CPMAddPackage(
-        NAME benchmark
-        GITHUB_REPOSITORY google/benchmark
-        GIT_TAG        v1.9.5
-        SYSTEM YES
-        OPTIONS
-            "BENCHMARK_ENABLE_TESTING OFF"
-            "BENCHMARK_ENABLE_INSTALL OFF"
-    )
-    message(STATUS "------------------------ benchmark installed--------------------------------")
-endif()
+CPMAddPackage(
+    NAME benchmark
+    GITHUB_REPOSITORY google/benchmark
+    GIT_TAG        v1.9.5
+    SYSTEM YES
+    FIND_PACKAGE_ARGUMENTS CONFIG
+    OPTIONS
+        "BENCHMARK_ENABLE_TESTING OFF"
+        "BENCHMARK_ENABLE_INSTALL OFF"
+)
