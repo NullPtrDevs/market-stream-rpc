@@ -9,6 +9,7 @@ if [[ -z "${ENV_SH_INCLUDED}" ]]; then
     export PROJECT_ROOT
     export BUILD_DIR="$PROJECT_ROOT/build"
     export COVERAGE_DIR="$PROJECT_ROOT/coverage_report"
+    export BENCHMARK_DIR="$PROJECT_ROOT/benchmark_report"
     export TOOLS_DIR="$PROJECT_ROOT/tools"
     export CMAKE_DIR="$PROJECT_ROOT/cmake"
     export SOURCE_DIR="$PROJECT_ROOT/src"

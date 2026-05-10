@@ -34,10 +34,23 @@ while [[ "$#" -gt 0 ]]; do
         esac
     done
 
-
 # shellcheck source=/dev/null
 source "$SCRIPT_DIR/build.sh"
+
+# Create benchmark out folder
+if [ ! -d "$BENCHMARK_DIR" ]; then
+    mkdir "$BENCHMARK_DIR"
+fi
+
+# Build project
 build_project
 
 echo -e "${GREEN}--------------------------------Start benchmark tests---------------------------${NC}"
-find "$BUILD_DIR/src" -type f -name "benchmark_*" -executable -exec {} \;
+# Run benchmark tests
+# Name should start with 'benchmark_'
+find "$BUILD_DIR/src" -type f -name "benchmark_*" -executable -exec {} \
+    --benchmark_min_time=2s \
+    --benchmark_out="$BENCHMARK_DIR/bench_result.json" \
+    --benchmark_out_format=json \;
+
+echo -e "${GREEN}--------------------------------End benchmark tests---------------------------${NC}"
