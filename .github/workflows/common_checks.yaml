@@ -1,5 +1,10 @@
 name: Common checks(linter, formatter, tests, coverage)
-  
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+
 on:
   push:
     branches: [ "main", "master" ]
@@ -27,6 +32,14 @@ jobs:
           chmod +x ${{ github.workspace }}/tools/build_and_run_tests.sh
           ${{ github.workspace }}/tools/build_and_run_tests.sh -c
 
+      - name: Publish Test Report
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "${{ github.workspace }}/coverage_report/TEST_*.xml"
+          comment_mode: always
+
+
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -34,6 +47,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
+          annotate_notice: true
 
       - name: Run C/C++ linter action
         uses: cpp-linter/cpp-linter-action@v2.18.0

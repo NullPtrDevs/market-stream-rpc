@@ -56,3 +56,6 @@ Thumbs.db
 
 # Files and folders which download automatically
 cmake
+
+# Folder for generated files
+*_report

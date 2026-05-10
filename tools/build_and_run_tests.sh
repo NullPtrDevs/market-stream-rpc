@@ -77,9 +77,18 @@ build_project
 # run all tests
 echo "--------------------------------Run tests---------------------------"
 if [ "$USE_THREAD_SANITIZER" == "ON" ]; then
-    find "$BUILD_DIR" -type f -name "test_*" -executable -exec setarch $(uname -m) -R {} \;
+    find "$BUILD_DIR" -type f -name "test_*" -executable -exec sh -c '
+    test_path="$1"
+    test_name=$(basename "$test_path")
+    setarch $(uname -m) -R "$test_path" --gtest_output=xml:"$COVERAGE_DIR/TEST_${test_name}_report.xml"
+    ' _ {} \;
+
 else
-    find "$BUILD_DIR" -type f -name "test_*" -executable -exec {} \;
+    find "$BUILD_DIR" -type f -name "test_*" -executable -exec sh -c '
+    test_path="$1"
+    test_name=$(basename "$test_path")
+    "$test_path" --gtest_output=xml:"$COVERAGE_DIR/TEST_${test_name}_report.xml"
+    ' _ {} \;
 fi
 
 if [ "$USE_COVERAGE" == "ON" ]; then

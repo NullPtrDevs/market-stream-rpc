@@ -1,0 +1,47 @@
+name: Benchmark report
+  
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "**" ] 
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build g++-13 lcov
+
+      - name: Run Benchmarks
+        env:
+          CC: gcc-13
+          CXX: g++-13
+        run: |
+          chmod +x ${{ github.workspace }}/tools/build_and_run_benchmark_tests.sh
+          ${{ github.workspace }}/tools/build_and_run_benchmark_tests.sh
+  
+      - name: Store and Compare Benchmarks
+        uses: benchmark-action/github-action-benchmark@v1.22.1
+        with:
+          tool: 'googlecpp'
+          output-file-path: ${{ github.workspace }}/benchmark_report/bench_result.json
+          alert-threshold: "120%"
+          fail-threshold: "150%"
+          comment-always: true
+          summary-always: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-fetch-gh-pages: false
+          comment-on-alert: true
+          auto-push: ${{ github.event_name == 'push' }}
