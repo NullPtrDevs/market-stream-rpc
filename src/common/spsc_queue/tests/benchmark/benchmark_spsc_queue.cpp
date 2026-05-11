@@ -8,7 +8,10 @@
 #include <vector>
 
 #include "spsc_lock_free_queue.h"
+// Exclude lint errors because this is non production code.
+// We don't need to pay attention to naming convention and small warnings.
 
+// NOLINTBEGIN
 static void BM_Queue_push_pop(benchmark::State& state)
 {
     int32_t input{42};
@@ -137,3 +140,4 @@ static void BM_SPSC_Queue(benchmark::State& state)
 BENCHMARK(BM_SPSC_Queue)->Threads(2);
 
 BENCHMARK_MAIN();
+// NOLINTEND

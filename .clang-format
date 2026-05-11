@@ -1,9 +1,19 @@
+Language: Cpp
 BasedOnStyle: Google
+
 IndentWidth: 4
 ColumnLimit: 150
+UseTab: Never
+
 AllowShortFunctionsOnASingleLine: Empty
 BreakBeforeBraces: Allman
-UseTab: Never
+
 AlignAfterOpenBracket: Align
-SortIncludes: true
 AccessModifierOffset: -4
+
+SortIncludes: true
+
+Standard: Latest
+PointerAlignment: Left
+SpaceBeforeParens: ControlStatements
+IncludeBlocks: Regroup
