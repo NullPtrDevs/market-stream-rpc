@@ -1,7 +1,7 @@
 
 # Install CPM
 
-set(CPM_LOCAL_PATH "${CMAKE_SOURCE_DIR}/cmake/CPM.make")
+set(CPM_LOCAL_PATH "${CMAKE_SOURCE_DIR}/cmake/CPM.cmake")
 
 if(NOT EXISTS "${CPM_LOCAL_PATH}")
     message(STATUS "---------------CPM not found--------------------")

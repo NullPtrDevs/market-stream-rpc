@@ -15,6 +15,7 @@ cmake_install.cmake
 install_manifest.txt ;
 CompileCommand.json
 .cmake/
+.cache/
 
 # Protocols and generated gRPCC
 *.pb.cc
