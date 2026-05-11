@@ -18,6 +18,7 @@ show_help() {
     echo "  -r, --release       Build in Release mode (default is Debug)"
     echo "  -gh, --html         Generate html report"
     echo "  -c, --coverage      Generate coverage"
+    echo "  -cl, --clean        Perform clean build"
     echo "  -h, --help          Show this help message"
     echo "-------------------------------------------------------------------"
     echo "Please be aware that flag -c can conflict with -s."
@@ -35,6 +36,7 @@ USE_ADDRESS_SANITIZER="OFF"
 USE_COVERAGE="OFF"
 USE_COVERAGE_HTML="OFF"
 BUILD_TYPE="Debug"
+CLEAN_BUILD="OFF"
 
 echo "--------------------------------Setup coverage dir---------------------------" 
 
@@ -49,6 +51,7 @@ while [[ "$#" -gt 0 ]]; do
         -as|--asanitize) USE_ADDRESS_SANITIZER="ON"; shift ;;
         -r|--release) BUILD_TYPE="Release"; shift ;;
         -c|--coverage) USE_COVERAGE="ON"; shift ;;
+        -cl|--clean) CLEAN_BUILD="ON"; shift ;;
         -gh|--html) USE_COVERAGE_HTML="ON"; shift ;;
         -h|--help) show_help ;;
         *) echo "Unknown parameter $1"; exit 1 ;;
@@ -65,6 +68,7 @@ echo "Build Type: $BUILD_TYPE"
 echo "Thread sanitizer:  $USE_THREAD_SANITIZER"
 echo "Thread sanitizer:  $USE_ADDRESS_SANITIZER"
 echo "Use coverage:  $USE_COVERAGE"
+echo "Clean build:  $CLEAN_BUILD"
 echo "Generate coverage html:  $USE_COVERAGE_HTML"
 echo "-------------------------------------------------------"
 
