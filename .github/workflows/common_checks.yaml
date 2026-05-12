@@ -30,7 +30,7 @@ jobs:
           CXX: g++-13
         run: |
           chmod +x ${{ github.workspace }}/tools/build_and_run_tests.sh
-          ${{ github.workspace }}/tools/build_and_run_tests.sh -c
+          ${{ github.workspace }}/tools/build_and_run_tests.sh -c -cl
 
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2

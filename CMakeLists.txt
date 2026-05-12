@@ -24,6 +24,8 @@ add_subdirectory(src/common/spsc_queue/tests/ut)
 
 add_subdirectory(src/common/spsc_queue/tests/benchmark)
 
+# For testing purposes, remove once it is not needed anymore.
+
 add_executable(main_cpp src/main.cpp)
 target_link_directories(main_cpp PRIVATE src/common/spsc_queue)
 target_link_libraries(main_cpp PRIVATE spsc_lock_free_queue)

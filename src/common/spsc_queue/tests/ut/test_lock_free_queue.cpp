@@ -8,12 +8,16 @@
 
 using namespace spsc_queue;
 
+// Fix lint warnings about GTests macros.
+// NOLINTBEGIN(readability-function-cognitive-complexity)
+
 // 1) What it does: Performs basic sequential push and pop operations.
 // 2) What it verifies: Functional correctness of push, pop, and empty methods in a single-threaded environment.
 // 3) Expectation: Elements are retrieved in the same order they were added (FIFO); empty() returns correct state.
 TEST(LockFreeQueueTest, BasicOperations)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
+    constexpr size_t queue_size{16};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
 
     EXPECT_TRUE(queue.empty());
     EXPECT_TRUE(queue.push(1));
@@ -39,7 +43,8 @@ TEST(LockFreeQueueTest, BasicOperations)
 TEST(LockFreeQueueTest, ProducerConsumerThreaded)
 {
     const int32_t count = 100000;
-    LockFreeQueueSPSC<int32_t, 1024> queue;
+    constexpr size_t queue_size{1024};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     std::atomic<int64_t> sum_consumed{0};
     int64_t expected_sum{0};
 
@@ -77,7 +82,8 @@ TEST(LockFreeQueueTest, ProducerConsumerThreaded)
 // 3) Expectation: empty() must return true for a new queue.
 TEST(LockFreeQueueTest, EmptyQueue)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
+    constexpr size_t queue_size{16};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     ASSERT_TRUE(queue.empty());
 }
 
@@ -86,7 +92,8 @@ TEST(LockFreeQueueTest, EmptyQueue)
 // 3) Expectation: The popped value exactly matches the pushed value.
 TEST(LockFreeQueueTest, PushAndPop)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
+    constexpr size_t queue_size{16};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     constexpr int32_t item{42};
     ASSERT_TRUE(queue.push(item));
     int32_t popped_item{0};
@@ -99,13 +106,15 @@ TEST(LockFreeQueueTest, PushAndPop)
 // 3) Expectation: Values are retrieved in the same order they were pushed.
 TEST(LockFreeQueueTest, PushMultipleAndPopMultiple)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
-    for (int32_t i = 0; i < 5; ++i)
+    constexpr size_t queue_size{16};
+    const int32_t iteration_count{5};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
+    for (int32_t i = 0; i < iteration_count; ++i)
     {
         int32_t item = i;
         ASSERT_TRUE(queue.push(item));
     }
-    for (int32_t i = 0; i < 5; ++i)
+    for (int32_t i = 0; i < iteration_count; ++i)
     {
         int32_t popped_item{0};
         ASSERT_TRUE(queue.pop(popped_item));
@@ -119,14 +128,14 @@ TEST(LockFreeQueueTest, PushMultipleAndPopMultiple)
 TEST(LockFreeQueueTest, QueueFull)
 {
     // Queue can store only 15 elements if size is 16
-    LockFreeQueueSPSC<int32_t, 16> queue;
-    for (int32_t i = 0; i < 15; ++i)
+    constexpr size_t queue_size{16};
+    constexpr int32_t item_count = 15;
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
+    for (int32_t i = 0; i < item_count; ++i)
     {
-        int32_t item = i;
-        ASSERT_TRUE(queue.push(item));
+        ASSERT_TRUE(queue.push(item_count));
     }
-    int32_t item = 15;
-    ASSERT_FALSE(queue.push(item));
+    ASSERT_FALSE(queue.push(item_count));
 }
 
 // 1) What it does: Tries to pop an element from an empty queue.
@@ -134,7 +143,8 @@ TEST(LockFreeQueueTest, QueueFull)
 // 3) Expectation: pop() returns false.
 TEST(LockFreeQueueTest, QueueEmpty)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
+    constexpr size_t queue_size{16};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     int32_t item{0};
     ASSERT_FALSE(queue.pop(item));
 }
@@ -144,10 +154,11 @@ TEST(LockFreeQueueTest, QueueEmpty)
 // 3) Expectation: All items are transferred; no deadlocks or race conditions.
 TEST(LockFreeQueueTest, MultiThreadedPushAndPop)
 {
-    LockFreeQueueSPSC<int32_t, 16> queue;
+    constexpr size_t queue_size{16};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     constexpr int32_t iterations_count{100};
     std::thread producer(
-        [&queue, iterations_count]()
+        [&queue]() -> void
         {
             for (int32_t i = 0; i < iterations_count; ++i)
             {
@@ -159,7 +170,7 @@ TEST(LockFreeQueueTest, MultiThreadedPushAndPop)
             }
         });
     std::thread consumer(
-        [&queue, iterations_count]()
+        [&queue]() -> void
         {
             for (int32_t i = 0; i < iterations_count; ++i)
             {
@@ -181,8 +192,9 @@ TEST(LockFreeQueueTest, MultiThreadedPushAndPop)
 // 3) Expectation: All operations work correctly within the allocated ring buffer boundaries.
 TEST(LockFreeQueueTest, PowerOfTwoCapacity)
 {
-    LockFreeQueueSPSC<int32_t, 512> queue;
-    for (int i = 0; i < 511; ++i)
+    constexpr size_t queue_size{512};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
+    for (size_t i = 0; i < queue_size - 1; ++i)
     {
         ASSERT_TRUE(queue.push(i));
     }
@@ -194,7 +206,8 @@ TEST(LockFreeQueueTest, PowerOfTwoCapacity)
 // 3) Expectation: Total counts and sums match between producer and consumer after completion.
 TEST(LockFreeQueueTest, SimulateProducerToConsumer)
 {
-    LockFreeQueueSPSC<int32_t, 2048> queue;
+    constexpr size_t queue_size{2048};
+    LockFreeQueueSPSC<int32_t, queue_size> queue;
     constexpr int32_t batch_size = 500;
 
     std::atomic<bool> done{false};
@@ -205,7 +218,7 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumer)
 
     // simulate producer
     std::thread producer(
-        [&queue, &done, &producer_sum, &producer_count]()
+        [&queue, &done, &producer_sum, &producer_count]() -> void
         {
             int32_t item{0};
             while (!done.load(std::memory_order_relaxed))
@@ -224,7 +237,7 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumer)
         });
     // simulate consumer
     std::thread consumer(
-        [&queue, &done, &consumer_sum, &consumer_count, batch_size]()
+        [&queue, &done, &consumer_sum, &consumer_count]() -> void
         {
             int32_t item{0};
             while (!done.load(std::memory_order_relaxed) || !queue.empty())
@@ -245,7 +258,8 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumer)
                 }
             }
         });
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    constexpr int32_t sleep_time{5};
+    std::this_thread::sleep_for(std::chrono::seconds(sleep_time));
     done.store(true, std::memory_order_relaxed);
 
     producer.join();
@@ -261,7 +275,7 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumer)
 TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
 {
     LockFreeQueueSPSC<int32_t, 2048> queue;
-    constexpr int32_t batch_size = 500;
+    constexpr int32_t batch_size{500};
 
     std::atomic<bool> producer_done{false};
     std::atomic<bool> consumer_done{false};
@@ -272,7 +286,7 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
 
     // simulate producer
     std::thread producer(
-        [&queue, &producer_done, &producer_sum, &producer_count]()
+        [&queue, &producer_done, &producer_sum, &producer_count]() -> void
         {
             int32_t item{0};
             while (!producer_done.load(std::memory_order_acquire))
@@ -291,7 +305,7 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
         });
     // simulate consumer
     std::thread consumer(
-        [&queue, &consumer_done, &consumer_sum, &consumer_count, batch_size]()
+        [&queue, &consumer_done, &consumer_sum, &consumer_count]() -> void
         {
             int32_t item{0};
             auto consume_action = [&consumer_sum, &consumer_count, &item]()
@@ -304,8 +318,8 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
                 if (queue.pop(item))
                 {
                     consume_action();
-                    uint8_t count{0u};
-                    while (count++ < 500u && queue.pop(item))
+                    int32_t count{0};
+                    while (count++ < batch_size && queue.pop(item))
                     {
                         // simulate send here
                         consume_action();
@@ -322,7 +336,8 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
                 consume_action();
             }
         });
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    constexpr int32_t sleep_time{5};
+    std::this_thread::sleep_for(std::chrono::seconds(sleep_time));
     producer_done.store(true, std::memory_order_release);
     producer.join();
     consumer_done.store(true, std::memory_order_release);
@@ -331,3 +346,4 @@ TEST(LockFreeQueueTest, SimulateProducerToConsumerSendLast500FromQueue)
     EXPECT_EQ(producer_sum.load(), consumer_sum.load());
     EXPECT_EQ(producer_count.load(), consumer_count.load());
 }
+// NOLINTEND(readability-function-cognitive-complexity)
