@@ -10,9 +10,9 @@
 #include "DltConfig.h"
 
 const size_t QUEUE_SIZE = 65536;
-DltLogger::DltLogger() : message_queue_(QUEUE_SIZE), ctx_main{}, running_{false} {};
+common::logger::DltLogger::DltLogger() : message_queue_(QUEUE_SIZE), ctx_main{}, running_{false} {};
 
-void DltLogger::init(const std::string& app_id, const std::string& app_description)
+void common::logger::DltLogger::init(const std::string& app_id, const std::string& app_description)
 {
     DLT_REGISTER_APP(app_id.c_str(), app_description.c_str());
     DLT_REGISTER_CONTEXT(ctx_main, "MAIN", "Main Log Context");
@@ -32,7 +32,7 @@ void DltLogger::init(const std::string& app_id, const std::string& app_descripti
     worker_thread_ = std::jthread(&DltLogger::process_queue, this);
 }
 
-void DltLogger::stop()
+void common::logger::DltLogger::stop()
 {
     if (running_.load(std::memory_order_acquire))
     {
@@ -61,12 +61,12 @@ void DltLogger::stop()
     }
 }
 
-void DltLogger::log(DltLogLevelType level, std::string message)
+void common::logger::DltLogger::log(DltLogLevelType level, std::string message)
 {
     message_queue_.try_enqueue({.level_ = level, .message_ = std::move(message)});
 }
 
-void DltLogger::process_queue(const std::stop_token& stop_token)
+void common::logger::DltLogger::process_queue(const std::stop_token& stop_token)
 {
     constexpr size_t bulk_size = 32;
     std::array<LogMessage, bulk_size> message_chunk;

@@ -8,6 +8,7 @@
 
 auto main() -> int
 {
+    using namespace common::logger;
     DltLogger::instance().init("TEST", "Test Application");
 
     std::vector<std::jthread> workers;
@@ -21,7 +22,7 @@ auto main() -> int
             {
                 while (!token.stop_requested())
                 {
-                    LOG_INFO("Message from thread " + std::to_string(i));
+                    log_info("Message from thread " + std::to_string(i));
                     const auto thread_sleep = 200;
                     std::this_thread::sleep_for(std::chrono::milliseconds(thread_sleep));
                 }

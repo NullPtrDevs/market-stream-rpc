@@ -10,6 +10,8 @@
 #include <thread>
 #include <vector>
 
+namespace common::logger
+{
 struct LogMessage
 {
     DltLogLevelType level_;
@@ -51,8 +53,29 @@ private:
     std::atomic<bool> running_;
 };
 
-#define LOG_INFO(msg) DltLogger::instance().log(DLT_LOG_INFO, msg);
-#define LOG_ERROR(msg) DltLogger::instance().log(DLT_LOG_ERROR, msg);
-#define LOG_DEBUG(msg) DltLogger::instance().log(DLT_LOG_DEBUG, msg);
-#define LOG_WARN(msg) DltLogger::instance().log(DLT_LOG_WARN, msg);
-#define LOG_FATAL(msg) DltLogger::instance().log(DLT_LOG_FATAL, msg);
+inline void log_info(std::string message)
+{
+    DltLogger::instance().log(DLT_LOG_INFO, std::move(message));
+}
+
+inline void log_error(std::string message)
+{
+    DltLogger::instance().log(DLT_LOG_ERROR, std::move(message));
+}
+
+inline void log_debug(std::string message)
+{
+    DltLogger::instance().log(DLT_LOG_DEBUG, std::move(message));
+}
+
+inline void log_warn(std::string message)
+{
+    DltLogger::instance().log(DLT_LOG_WARN, std::move(message));
+}
+
+inline void log_fatal(std::string message)
+{
+    DltLogger::instance().log(DLT_LOG_FATAL, std::move(message));
+}
+
+}  // namespace common::logger

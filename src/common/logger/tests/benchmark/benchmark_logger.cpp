@@ -11,7 +11,7 @@ struct LogFixture
 {
     LogFixture()
     {
-        DltLogger::instance().init("BENCH", "Benchmark App");
+        common::logger::DltLogger::instance().init("BENCH", "Benchmark App");
     }
 
     LogFixture(const LogFixture&) = delete;
@@ -24,7 +24,7 @@ struct LogFixture
         constexpr auto stop_wait_duration = std::chrono::milliseconds(500);
         std::this_thread::sleep_for(stop_wait_duration);
 
-        DltLogger::instance().stop();
+        common::logger::DltLogger::instance().stop();
     }
 };
 
@@ -38,7 +38,7 @@ static void bm_dlt_logger_push(benchmark::State& state)
     for (auto benchmark_iteration : state)
     {
         benchmark::DoNotOptimize(benchmark_iteration);
-        DltLogger::instance().log(DLT_LOG_INFO, test_msg);
+        common::logger::DltLogger::instance().log(DLT_LOG_INFO, test_msg);
     }
     state.SetItemsProcessed(state.iterations());
 }
