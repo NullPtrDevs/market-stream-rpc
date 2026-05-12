@@ -4,7 +4,6 @@ about: Development issue
 title: "[Dev]"
 labels: code implementation, feature
 assignees: ''
-type: Task
 
 ---
 
