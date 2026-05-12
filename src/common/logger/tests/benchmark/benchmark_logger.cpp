@@ -29,6 +29,6 @@ static void BM_DltLogger_Push(benchmark::State& state)
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_DltLogger_Push)->Iterations(100000);
+BENCHMARK(BM_DltLogger_Push)->Iterations(65536);
 
 BENCHMARK_MAIN();

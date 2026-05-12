@@ -5,6 +5,22 @@ add_library(${LOGGER_TARGET}
         dlt_logger.h
         dlt_logger.cpp)
 
+# ----------------------------------------------------------
+add_executable(logger_test logger_test.cpp)
+target_link_libraries(logger_test
+    PRIVATE
+        logger
+        dlt
+        spsc_lock_free_queue
+)
+
+target_include_directories(logger_test
+    PRIVATE
+        "${PROJECT_SOURCE_DIR}/src/"
+        ${DLT_INCLUDE_DIRS}
+)
+# ----------------------------------------------------------
+
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(DLT automotive-dlt)
