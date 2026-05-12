@@ -10,8 +10,11 @@
 #include <thread>
 #include <vector>
 
-namespace common::logger
+namespace common
 {
+namespace logger
+{
+
 struct LogMessage
 {
     DltLogLevelType level_;
@@ -47,7 +50,7 @@ private:
 
     moodycamel::ConcurrentQueue<LogMessage> message_queue_;
 
-    DLT_DECLARE_CONTEXT(ctx_main);
+    DLT_DECLARE_CONTEXT(ctx_main_);
     std::vector<DltContext> registered_contexts_;
     std::jthread worker_thread_;
     std::atomic<bool> running_;
@@ -78,4 +81,5 @@ inline void log_fatal(std::string message)
     DltLogger::instance().log(DLT_LOG_FATAL, std::move(message));
 }
 
-}  // namespace common::logger
+}  // namespace logger
+}  // namespace common

@@ -10,12 +10,12 @@
 #include "DltConfig.h"
 
 const size_t QUEUE_SIZE = 65536;
-common::logger::DltLogger::DltLogger() : message_queue_(QUEUE_SIZE), ctx_main{}, running_{false} {};
+common::logger::DltLogger::DltLogger() : message_queue_(QUEUE_SIZE), ctx_main_{}, running_{false} {};
 
 void common::logger::DltLogger::init(const std::string& app_id, const std::string& app_description)
 {
     DLT_REGISTER_APP(app_id.c_str(), app_description.c_str());
-    DLT_REGISTER_CONTEXT(ctx_main, "MAIN", "Main Log Context");
+    DLT_REGISTER_CONTEXT(ctx_main_, "MAIN", "Main Log Context");
 
     DltConfig config = DltConfig::from_yaml("config/config.yaml");
 
@@ -37,6 +37,7 @@ void common::logger::DltLogger::stop()
     if (running_.load(std::memory_order_acquire))
     {
         while (message_queue_.size_approx() != 0)
+        {
             const int waiting_msc = 10;
             std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
             std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
@@ -56,7 +57,7 @@ void common::logger::DltLogger::stop()
         }
         registered_contexts_.clear();
 
-        DLT_UNREGISTER_CONTEXT(ctx_main);
+        DLT_UNREGISTER_CONTEXT(ctx_main_);
         DLT_UNREGISTER_APP();
     }
 }
@@ -79,7 +80,7 @@ void common::logger::DltLogger::process_queue(const std::stop_token& stop_token)
         {
             for (const auto& item : std::span(message_chunk).subspan(0, dequeued_count))
             {
-                DLT_LOG(ctx_main, item.level_, DLT_STRING(item.message_.c_str()));
+                DLT_LOG(ctx_main_, item.level_, DLT_STRING(item.message_.c_str()));
             }
         }
         else

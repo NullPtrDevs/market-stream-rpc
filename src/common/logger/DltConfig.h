@@ -7,6 +7,11 @@
 #include <string>
 #include <vector>
 
+namespace common
+{
+namespace logger
+{
+
 class DltConfig final
 {
 public:
@@ -17,8 +22,8 @@ public:
     };
 
     struct OptContext
+    {
         std::string id_;
-        std::string description_;
         std::string description_;
     };
 
@@ -67,3 +72,5 @@ private:
         throw std::runtime_error("Invalid DLT logger mode: " + mode);
     }
 };
+}  // namespace logger
+}  // namespace common
