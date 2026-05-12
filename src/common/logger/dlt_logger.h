@@ -10,9 +10,7 @@
 #include <thread>
 #include <vector>
 
-namespace common
-{
-namespace logger
+namespace common::logger
 {
 
 struct LogMessage
@@ -81,5 +79,4 @@ inline void log_fatal(std::string message)
     DltLogger::instance().log(DLT_LOG_FATAL, std::move(message));
 }
 
-}  // namespace logger
-}  // namespace common
+}  // namespace common::logger

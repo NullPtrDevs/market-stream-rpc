@@ -7,9 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace common
-{
-namespace logger
+namespace common::logger
 {
 
 class DltConfig final
@@ -72,5 +70,4 @@ private:
         throw std::runtime_error("Invalid DLT logger mode: " + mode);
     }
 };
-}  // namespace logger
-}  // namespace common
+}  // namespace common::logger
