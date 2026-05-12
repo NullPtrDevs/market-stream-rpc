@@ -45,7 +45,7 @@ public:
 
         for (const auto& context : logger["contexts"])
         {
-            config.contexts_.push_back({.id = context["id"].as<std::string>(), .description = context["description"].as<std::string>()});
+            config.contexts_.push_back({.id_ = context["id"].as<std::string>(), .description_ = context["description"].as<std::string>()});
         }
 
         return config;

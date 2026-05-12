@@ -22,9 +22,9 @@ void DltLogger::init(const std::string& app_id, const std::string& app_descripti
     for (const auto& context : config.contexts_)
     {
         DltContext dlt_context{};
-        const auto context_id_length = static_cast<std::ptrdiff_t>(std::min(context.id.size(), sizeof(dlt_context.contextID)));
-        std::ranges::copy_n(context.id.begin(), context_id_length, std::begin(dlt_context.contextID));
-        (void)dlt_register_context(&dlt_context, context.id.c_str(), context.description.c_str());
+        const auto context_id_length = static_cast<std::ptrdiff_t>(std::min(context.id_.size(), sizeof(dlt_context.contextID)));
+        std::ranges::copy_n(context.id_.begin(), context_id_length, std::begin(dlt_context.contextID));
+        (void)dlt_register_context(&dlt_context, context.id_.c_str(), context.description_.c_str());
         registered_contexts_.push_back(dlt_context);
     }
 
@@ -63,7 +63,7 @@ void DltLogger::stop()
 
 void DltLogger::log(DltLogLevelType level, std::string message)
 {
-    message_queue_.try_enqueue({.level = level, .message = std::move(message)});
+    message_queue_.try_enqueue({.level_ = level, .message_ = std::move(message)});
 }
 
 void DltLogger::process_queue(const std::stop_token& stop_token)
@@ -79,7 +79,7 @@ void DltLogger::process_queue(const std::stop_token& stop_token)
         {
             for (const auto& item : std::span(message_chunk).subspan(0, dequeued_count))
             {
-                DLT_LOG(ctx_main, item.level, DLT_STRING(item.message.c_str()));
+                DLT_LOG(ctx_main, item.level_, DLT_STRING(item.message_.c_str()));
             }
         }
         else
