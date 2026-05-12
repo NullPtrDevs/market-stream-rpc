@@ -29,6 +29,8 @@ add_subdirectory(src/common/logger/tests/benchmark)
 
 # For testing purposes, remove once it is not needed anymore.
 
+# For testing purposes, remove once it is not needed anymore.
+
 add_executable(main_cpp src/main.cpp)
 target_link_directories(main_cpp
     PRIVATE
