@@ -12,14 +12,14 @@
 
 struct LogMessage
 {
-    DltLogLevelType level;
-    std::string message;
+    DltLogLevelType level_;
+    std::string message_;
 };
 
 class DltLogger
 {
 public:
-    static DltLogger& instance()
+    static auto instance() -> DltLogger&
     {
         static DltLogger instance;
         return instance;

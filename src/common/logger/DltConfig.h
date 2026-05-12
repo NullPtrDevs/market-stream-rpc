@@ -18,8 +18,8 @@ public:
 
     struct OptContext
     {
-        std::string id;
-        std::string description;
+        std::string id_;
+        std::string description_;
     };
 
     std::string app_id_;

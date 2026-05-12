@@ -30,9 +30,9 @@ struct LogFixture
 
 namespace
 {
-const LogFixture global_fix;
+const LogFixture GLOBAL_FIX;
 }
-static void BM_DltLogger_Push(benchmark::State& state)
+static void bm_dlt_logger_push(benchmark::State& state)
 {
     std::string test_msg = "Test log message for benchmarking performance";
     for (auto benchmark_iteration : state)
@@ -42,6 +42,6 @@ static void BM_DltLogger_Push(benchmark::State& state)
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_DltLogger_Push)->Iterations(65536);
+BENCHMARK(bm_dlt_logger_push)->Iterations(65536);
 
 BENCHMARK_MAIN();
