@@ -37,8 +37,8 @@ void DltLogger::stop()
     if (running_.load(std::memory_order_acquire))
     {
         while (message_queue_.size_approx() != 0)
-        {
             const int waiting_msc = 10;
+            std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
             std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
         }
 

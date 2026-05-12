@@ -17,8 +17,8 @@ public:
     };
 
     struct OptContext
-    {
         std::string id_;
+        std::string description_;
         std::string description_;
     };
 
