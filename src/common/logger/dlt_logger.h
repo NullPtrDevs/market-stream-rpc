@@ -8,7 +8,7 @@
 #include <stop_token>
 #include <string>
 #include <thread>
-
+#include <vector>
 
 struct LogMessage
 {
@@ -41,11 +41,12 @@ private:
         stop();
     }
 
-    void process_queue(std::stop_token stop);
+    void process_queue(const std::stop_token& stop_token);
 
     moodycamel::ConcurrentQueue<LogMessage> message_queue_;
 
     DLT_DECLARE_CONTEXT(ctx_main);
+    std::vector<DltContext> registered_contexts_;
     std::jthread worker_thread_;
     std::atomic<bool> running_;
 };

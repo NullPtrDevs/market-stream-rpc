@@ -1,13 +1,16 @@
 #include "dlt_logger.h"
-#include "DltConfig.h"
 
-
+#include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstddef>
+#include <iterator>
 #include <span>
 
+#include "DltConfig.h"
+
 const size_t QUEUE_SIZE = 65536;
-DltLogger::DltLogger() : ctx_main{}, running_{false}, message_queue_(QUEUE_SIZE) {};
+DltLogger::DltLogger() : ctx_main{}, running_{false}, message_queue_(QUEUE_SIZE){};
 
 void DltLogger::init(const std::string& app_id, const std::string& app_description)
 {
@@ -16,11 +19,13 @@ void DltLogger::init(const std::string& app_id, const std::string& app_descripti
 
     DltConfig config = DltConfig::from_yaml("config/config.yaml");
 
-    for(const auto& context : config.contexts)
+    for (const auto& context : config.contexts_)
     {
-        DLT_DECLARE_CONTEXT(ctx);
-        std::copy_n(context.id.begin(), std::min(context.id.size(), size_t{4}), ctx.contextID);
-        (void)dlt_register_context(&ctx, context.id.c_str(), context.description.c_str());
+        DltContext dlt_context{};
+        const auto context_id_length = static_cast<std::ptrdiff_t>(std::min(context.id.size(), sizeof(dlt_context.contextID)));
+        std::ranges::copy_n(context.id.begin(), context_id_length, std::begin(dlt_context.contextID));
+        (void)dlt_register_context(&dlt_context, context.id.c_str(), context.description.c_str());
+        registered_contexts_.push_back(dlt_context);
     }
 
     running_.store(true, std::memory_order_relaxed);
@@ -45,6 +50,12 @@ void DltLogger::stop()
             worker_thread_.join();
         };
 
+        for (auto& context : registered_contexts_)
+        {
+            DLT_UNREGISTER_CONTEXT(context);
+        }
+        registered_contexts_.clear();
+
         DLT_UNREGISTER_CONTEXT(ctx_main);
         DLT_UNREGISTER_APP();
     }
@@ -55,12 +66,12 @@ void DltLogger::log(DltLogLevelType level, std::string message)
     message_queue_.try_enqueue({.level = level, .message = std::move(message)});
 }
 
-void DltLogger::process_queue(std::stop_token st)
+void DltLogger::process_queue(const std::stop_token& stop_token)
 {
     constexpr size_t bulk_size = 32;
     std::array<LogMessage, bulk_size> message_chunk;
 
-    while (!st.stop_requested())
+    while (!stop_token.stop_requested())
     {
         size_t dequeued_count = message_queue_.try_dequeue_bulk(message_chunk.begin(), bulk_size);
 

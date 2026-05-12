@@ -6,7 +6,7 @@
 
 #include "common/logger/dlt_logger.h"
 
-int main()
+auto main() -> int
 {
     DltLogger::instance().init("TEST", "Test Application");
 
@@ -22,7 +22,8 @@ int main()
                 while (!token.stop_requested())
                 {
                     LOG_INFO("Message from thread " + std::to_string(i));
-                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                    const auto thread_sleep = 200;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(thread_sleep));
                 }
             });
     }
