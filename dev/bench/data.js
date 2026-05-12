@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778562411452,
+  "lastUpdate": 1778586454805,
   "repoUrl": "https://github.com/NullPtrDevs/market-stream-rpc",
   "entries": {
     "Benchmark": [
@@ -237,6 +237,125 @@ window.BENCHMARK_DATA = {
             "value": 11.149398698029968,
             "unit": "ns/iter",
             "extra": "iterations: 250749220\ncpu: 11.148768119797133 ns\nthreads: 2"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ahillodessa@gmail.com",
+            "name": "ahillodessa",
+            "username": "ahillodessa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "42cab0c66067e04b9c517ea8d6332a88c042e3e0",
+          "message": "Add codestyle support for clang-tidy (#33)",
+          "timestamp": "2026-05-12T14:45:29+03:00",
+          "tree_id": "8acb2b465d1f4f0dce641ed72044893a68641de8",
+          "url": "https://github.com/NullPtrDevs/market-stream-rpc/commit/42cab0c66067e04b9c517ea8d6332a88c042e3e0"
+        },
+        "date": 1778586454447,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Queue_push_pop",
+            "value": 1.0294396403447923,
+            "unit": "ns/iter",
+            "extra": "iterations: 2732993544\ncpu: 1.0293482745965827 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/1024",
+            "value": 1426.6156135251006,
+            "unit": "ns/iter",
+            "extra": "iterations: 1960800\ncpu: 1426.5167707058347 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/4096",
+            "value": 6144.964315227602,
+            "unit": "ns/iter",
+            "extra": "iterations: 464680\ncpu: 6144.275376603252 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/128",
+            "value": 194.27707526000071,
+            "unit": "ns/iter",
+            "extra": "iterations: 14353057\ncpu: 194.2634445052368 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/256",
+            "value": 373.04830470171976,
+            "unit": "ns/iter",
+            "extra": "iterations: 7493991\ncpu: 373.0237319473696 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/512",
+            "value": 723.9078423070741,
+            "unit": "ns/iter",
+            "extra": "iterations: 3871093\ncpu: 723.8565133929873 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/1024",
+            "value": 1429.1963451028528,
+            "unit": "ns/iter",
+            "extra": "iterations: 1964597\ncpu: 1429.058237389144 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/2048",
+            "value": 2825.399255188219,
+            "unit": "ns/iter",
+            "extra": "iterations: 991123\ncpu: 2825.2079671241618 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/4096",
+            "value": 6046.079626523788,
+            "unit": "ns/iter",
+            "extra": "iterations: 462145\ncpu: 6045.542269201226 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_BigO",
+            "value": null,
+            "unit": "ns/iter",
+            "extra": "iterations: undefined\ncpu: undefined ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_RMS",
+            "unit": "undefined/iter",
+            "extra": "iterations: undefined\ncpu: undefined undefined\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/100",
+            "value": 38461.40248125732,
+            "unit": "ns/iter",
+            "extra": "iterations: 117521\ncpu: 23403.854825945982 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/512",
+            "value": 38825.82866137565,
+            "unit": "ns/iter",
+            "extra": "iterations: 116261\ncpu: 23697.938715476423 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/4096",
+            "value": 56979.37093696727,
+            "unit": "ns/iter",
+            "extra": "iterations: 59746\ncpu: 46749.10663475382 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/10000",
+            "value": 122757.76085566194,
+            "unit": "ns/iter",
+            "extra": "iterations: 25010\ncpu: 112389.76089564172 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue/threads:2",
+            "value": 10.723802883654187,
+            "unit": "ns/iter",
+            "extra": "iterations: 265908866\ncpu: 10.720603110691311 ns\nthreads: 2"
           }
         ]
       }
