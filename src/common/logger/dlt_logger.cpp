@@ -7,9 +7,9 @@
 #include <iterator>
 #include <span>
 
-#include "DltConfig.h"
+#include "dlt_config.h"
 
-const size_t QUEUE_SIZE = 65536;
+constexpr size_t QUEUE_SIZE = 65536;
 common::logger::DltLogger::DltLogger() : message_queue_(QUEUE_SIZE), ctx_main_{}, running_{false} {};
 
 void common::logger::DltLogger::init(const std::string& app_id, const std::string& app_description)
@@ -38,8 +38,7 @@ void common::logger::DltLogger::stop()
     {
         while (message_queue_.size_approx() != 0)
         {
-            const int waiting_msc = 10;
-            std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
+            constexpr int waiting_msc = 10;
             std::this_thread::sleep_for(std::chrono::milliseconds(waiting_msc));  // Give it the time for worker to complete
         }
 

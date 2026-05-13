@@ -9,5 +9,4 @@ target_link_libraries(${TARGET_NAME}
         benchmark::benchmark
         logger
         dlt
-        spsc_lock_free_queue
 )
