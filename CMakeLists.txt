@@ -21,6 +21,7 @@ add_subdirectory(src/common/logger)
 
 enable_testing()
 add_subdirectory(src/common/spsc_queue/tests/ut)
+add_subdirectory(src/common/logger/tests/ut)
 
 # Benchmark tests
 
