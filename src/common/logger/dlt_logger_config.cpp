@@ -68,7 +68,10 @@ auto DltLoggerConfigService::load(const std::string& config_path) -> bool
     catch (const std::exception& e)
     {
         std::cerr << e.what() << '\n';
+        return false;
     }
+
+    return true;
 }
 
 auto DltLoggerConfigService::update() -> DltLoggerConfig
