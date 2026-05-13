@@ -18,7 +18,7 @@ if [[ -z "${ENV_SH_INCLUDED}" ]]; then
     export GREEN='\033[0;32m'
     export NC='\033[0m' # No Color
 
-    expected_installed_tools=("cmake" "g++" "lcov" "run-clang-tidy")
+    expected_installed_tools=("cmake" "g++" "lcov" "run-clang-tidy" "gcovr")
 
     for cmd in "${expected_installed_tools[@]}"; do
         if ! command -v "$cmd" &> /dev/null; then

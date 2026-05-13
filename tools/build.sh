@@ -61,6 +61,7 @@ show_help() {
 
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo -e "${GREEN}--------------------------------Use as script---------------------------${NC}" 
     BUILD_TYPE="Debug"
     BUILD_THREAD_SANITIZE="OFF"
     BUILD_ADDRESS_SANITIZE="OFF"

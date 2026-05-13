@@ -19,7 +19,7 @@ endif()
 
 include("${CPM_LOCAL_PATH}")
 
-# find_package(GTest REQUIRED)
+# Install google tests
 CPMAddPackage(
   NAME googletest
   GITHUB_REPOSITORY google/googletest
@@ -29,7 +29,6 @@ CPMAddPackage(
 )
 
 # Install google benchmark
-
 CPMAddPackage(
     NAME benchmark
     GITHUB_REPOSITORY google/benchmark
@@ -67,30 +66,22 @@ if(NOT DLT_FOUND)
 endif()
 
 # Install yaml-cpp
-
-find_package(yaml-cpp QUIET)
-if(NOT yaml-cpp_FOUND)
-    message(STATUS "---------------yaml-cpp not found--------------------")
-
-
-    CPMAddPackage(
-        NAME yaml-cpp
-        GITHUB_REPOSITORY jbeder/yaml-cpp
-        GIT_TAG yaml-cpp-0.9.0
-        SYSTEM YES
-        FIND_PACKAGE_ARGUMENTS CONFIG
-    )
-    message(STATUS "---------------yaml-cpp installed--------------------")
-
-endif()
+CPMAddPackage(
+    NAME yaml-cpp
+    GITHUB_REPOSITORY jbeder/yaml-cpp
+    GIT_TAG yaml-cpp-0.9.0
+    SYSTEM YES
+    FIND_PACKAGE_ARGUMENTS CONFIG
+)
 
 # Install concurrentqueue
-
 CPMAddPackage(
     NAME concurrentqueue
     GITHUB_REPOSITORY cameron314/concurrentqueue
     GIT_TAG v1.0.5
+    SYSTEM YES
     DOWNLOAD_ONLY YES
+    FIND_PACKAGE_ARGUMENTS CONFIG
 )
 
 if (concurrentqueue_ADDED)

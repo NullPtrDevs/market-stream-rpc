@@ -1,0 +1,4 @@
+add_executable(test_config_service_builder test_config_service_builder.cpp)
+
+target_link_libraries(test_config_service_builder PRIVATE GTest::gtest_main config_service)
+add_test(NAME ConfigServiceBuilderTest COMMAND test_config_service_builder)

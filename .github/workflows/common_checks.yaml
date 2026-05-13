@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake lcov libgtest-dev g++-13 libc6 wget lsb-release software-properties-common gnupg
+          sudo apt-get install -y cmake lcov gcovr libgtest-dev g++-13 libc6 wget lsb-release software-properties-common gnupg
 
       - name: Run Build and Tests
         env:
@@ -30,24 +30,23 @@ jobs:
           CXX: g++-13
         run: |
           chmod +x ${{ github.workspace }}/tools/build_and_run_tests.sh
-          ${{ github.workspace }}/tools/build_and_run_tests.sh -c -cl
+          ${{ github.workspace }}/tools/build_and_run_tests.sh -cov -cl
 
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "${{ github.workspace }}/coverage_report/TEST_*.xml"
+          files: "${{ github.workspace }}/build/junit_reports/**/*.xml"
           comment_mode: always
 
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: ${{ github.workspace }}/coverage_report/final_coverage.info
+          file: "${{ github.workspace }}/coverage_report/coverage.xml"
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
-          annotate_notice: true
 
       - name: Run C/C++ linter action
         uses: cpp-linter/cpp-linter-action@v2.18.0

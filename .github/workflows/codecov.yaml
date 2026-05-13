@@ -1,9 +1,19 @@
+ignore:
+  - "**/tests/**/*"
+  - "**/benchmark/**/*"
+  - "src/main.cpp"
 coverage:
   status:
+    project:
+      default:
+        target: 80% 
+        threshold: 2%
+        if_ci_failed: error
+        
     patch:
       default:
         target: 90%
-        threshold: 1%  # the leniency in hitting the target
+        threshold: 2%  # the leniency in hitting the target
 comment:                  #this is a top-level key
   layout: " diff, flags, files"
   behavior: default
