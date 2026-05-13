@@ -8,6 +8,10 @@ on:
 
 env:
   REGISTRY: ghcr.io
+<<<<<<< HEAD
+=======
+  IMAGE_NAME: ${{ github.repository }}/ci-container
+>>>>>>> c162263 (Add Docker image for CI)
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -18,6 +22,7 @@ jobs:
       packages: write
 
     steps:
+<<<<<<< HEAD
       - name: Checkout code
         uses: actions/checkout@v6.0.2
 
@@ -42,3 +47,22 @@ jobs:
           push: true
           tags: ${{ steps.location.outputs.image_tag }}
 
+=======
+    - name: Checkout code
+      uses: actions/checkout@v6.0.2
+
+    - name: Log in to registry ${{ env.REGISTRY }}
+      uses: docker/login-action@v4.1.0
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v7.1.0
+      with:
+        context: .
+        file: docker/ci-container.Dockerfile
+        push: true
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+>>>>>>> c162263 (Add Docker image for CI)

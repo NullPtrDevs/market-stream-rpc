@@ -21,21 +21,18 @@ include("${CPM_LOCAL_PATH}")
 
 find_package(GTest REQUIRED)
 if(NOT GTest_FOUND)
-    message(FATAL_ERROR "-------- GTest not found after installation --------")
-CPMAddPackage(
-  NAME googletest
-  GITHUB_REPOSITORY google/googletest
-  GIT_TAG v1.17.0
-  SYSTEM YES
-  FIND_PACKAGE_ARGUMENTS CONFIG
-)
+    message(FATAL_ERROR "GTest not found after installation")
+    CPMAddPackage(
+        NAME googletest
+        GITHUB_REPOSITORY google/googletest
+        GIT_TAG v1.17.0
+        SYSTEM YES
+        FIND_PACKAGE_ARGUMENTS CONFIG
+    )
 
 endif()
 
 # Install google benchmark
-find_package(benchmark QUIET)
-if(NOT benchmark_FOUND)
-    message(STATUS "--------------- benchmark not found --------------------")
 CPMAddPackage(
     NAME benchmark
     GITHUB_REPOSITORY google/benchmark
@@ -46,7 +43,6 @@ CPMAddPackage(
         "BENCHMARK_ENABLE_TESTING OFF"
         "BENCHMARK_ENABLE_INSTALL OFF"
 )
-endif()
 
 
 # Install COVESA DLT
@@ -66,27 +62,13 @@ if(NOT TARGET DLT::dlt)
 endif()
 
 # Install yaml-cpp
-
-find_package(yaml-cpp QUIET)
-if(NOT yaml-cpp_FOUND)
-    find_package(YAML-CPP QUIET)
-    if(YAML-CPP_FOUND)
-        set(yaml-cpp_FOUND TRUE)
-    endif()
-endif()
-
-if(NOT yaml-cpp_FOUND)
-    message(STATUS "--------------- yaml-cpp not found --------------------")
-    CPMAddPackage(
-        NAME yaml-cpp
-        GITHUB_REPOSITORY jbeder/yaml-cpp
-        GIT_TAG yaml-cpp-0.9.0
-        SYSTEM YES
-        FIND_PACKAGE_ARGUMENTS CONFIG
-    )
-    message(STATUS "--------------- yaml-cpp installed --------------------")
-
-endif()
+CPMAddPackage(
+    NAME yaml-cpp
+    GITHUB_REPOSITORY jbeder/yaml-cpp
+    GIT_TAG yaml-cpp-0.9.0
+    SYSTEM YES
+    FIND_PACKAGE_ARGUMENTS CONFIG
+)
 
 # Install concurrentqueue
 CPMAddPackage(

@@ -5,7 +5,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     gcc-13 g++-13 ninja-build git pkg-config libssl-dev zlib1g-dev curl \
     libyaml-cpp-dev libgtest-dev libbenchmark-dev \
+<<<<<<< HEAD
     lcov gcovr \
+=======
+    lcov gcovr genhtml \
+>>>>>>> c162263 (Add Docker image for CI)
     clang-format-20 clang-tidy \
     && rm -rf /var/lib/apt/lists/* \
     && ldconfig \
