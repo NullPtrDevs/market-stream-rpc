@@ -32,7 +32,10 @@ add_subdirectory(src/common/config_service)
 # Unit tests
 enable_testing()
 add_subdirectory(src/common/spsc_queue/tests/ut)
+<<<<<<< HEAD
 add_subdirectory(src/common/logger/tests/ut)
+=======
+>>>>>>> e831ad0 (Add implementation of config service base classes,)
 add_subdirectory(src/common/config_service/tests/ut)
 
 # Benchmark tests
