@@ -41,4 +41,4 @@ jobs:
           file: docker/ci-container.Dockerfile
           push: true
           tags: ${{ steps.location.outputs.image_tag }}
-          
+
