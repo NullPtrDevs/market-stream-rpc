@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778586454805,
+  "lastUpdate": 1778674423613,
   "repoUrl": "https://github.com/NullPtrDevs/market-stream-rpc",
   "entries": {
     "Benchmark": [
@@ -356,6 +356,125 @@ window.BENCHMARK_DATA = {
             "value": 10.723802883654187,
             "unit": "ns/iter",
             "extra": "iterations: 265908866\ncpu: 10.720603110691311 ns\nthreads: 2"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "75732220+afiryulin@users.noreply.github.com",
+            "name": "afiryulin",
+            "username": "afiryulin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0fd2ab623890f9c2469cfc6c0011f4adda4db981",
+          "message": "Investigate dlt logger (#34)",
+          "timestamp": "2026-05-13T15:11:07+03:00",
+          "tree_id": "fb1dd12d84064b12a142265f23e92530cd3a9186",
+          "url": "https://github.com/NullPtrDevs/market-stream-rpc/commit/0fd2ab623890f9c2469cfc6c0011f4adda4db981"
+        },
+        "date": 1778674422985,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Queue_push_pop",
+            "value": 1.0219167549945967,
+            "unit": "ns/iter",
+            "extra": "iterations: 2742213937\ncpu: 1.0217418441338773 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/1024",
+            "value": 1437.2233253717063,
+            "unit": "ns/iter",
+            "extra": "iterations: 1963167\ncpu: 1437.0579629751317 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/4096",
+            "value": 6034.943745348307,
+            "unit": "ns/iter",
+            "extra": "iterations: 464886\ncpu: 6034.161757936355 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/128",
+            "value": 194.85289215147537,
+            "unit": "ns/iter",
+            "extra": "iterations: 14374420\ncpu: 194.84112353750623 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/256",
+            "value": 371.0791823914544,
+            "unit": "ns/iter",
+            "extra": "iterations: 7541702\ncpu: 371.04671491925853 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/512",
+            "value": 723.2570909536187,
+            "unit": "ns/iter",
+            "extra": "iterations: 3870918\ncpu: 723.1915958953409 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/1024",
+            "value": 1430.410345352994,
+            "unit": "ns/iter",
+            "extra": "iterations: 1962369\ncpu: 1430.2867676772307 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/2048",
+            "value": 2833.9364996633026,
+            "unit": "ns/iter",
+            "extra": "iterations: 991916\ncpu: 2833.642615906995 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/4096",
+            "value": 6037.75633373209,
+            "unit": "ns/iter",
+            "extra": "iterations: 463905\ncpu: 6037.136344725748 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_BigO",
+            "value": null,
+            "unit": "ns/iter",
+            "extra": "iterations: undefined\ncpu: undefined ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_RMS",
+            "unit": "undefined/iter",
+            "extra": "iterations: undefined\ncpu: undefined undefined\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/100",
+            "value": 37270.361761697975,
+            "unit": "ns/iter",
+            "extra": "iterations: 119294\ncpu: 22840.763466729273 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/512",
+            "value": 37511.02052332805,
+            "unit": "ns/iter",
+            "extra": "iterations: 119084\ncpu: 23165.52694736486 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/4096",
+            "value": 54708.29523354051,
+            "unit": "ns/iter",
+            "extra": "iterations: 62730\ncpu: 44730.54685158615 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/10000",
+            "value": 120021.52261535049,
+            "unit": "ns/iter",
+            "extra": "iterations: 26398\ncpu: 109835.30479581786 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue/threads:2",
+            "value": 9.591934350170389,
+            "unit": "ns/iter",
+            "extra": "iterations: 283146386\ncpu: 9.590261279195689 ns\nthreads: 2"
           }
         ]
       }
