@@ -19,7 +19,9 @@ endif()
 
 include("${CPM_LOCAL_PATH}")
 
-# find_package(GTest REQUIRED)
+find_package(GTest REQUIRED)
+if(NOT GTest_FOUND)
+    message(FATAL_ERROR "GTest not found after installation")
 CPMAddPackage(
   NAME googletest
   GITHUB_REPOSITORY google/googletest
@@ -28,8 +30,12 @@ CPMAddPackage(
   FIND_PACKAGE_ARGUMENTS CONFIG
 )
 
-# Install google benchmark
+endif()
 
+# Install google benchmark
+find_package(benchmark QUIET)
+if(NOT benchmark_FOUND)
+    message(STATUS "---------------benchmark not found--------------------")
 CPMAddPackage(
     NAME benchmark
     GITHUB_REPOSITORY google/benchmark
@@ -40,35 +46,36 @@ CPMAddPackage(
         "BENCHMARK_ENABLE_TESTING OFF"
         "BENCHMARK_ENABLE_INSTALL OFF"
 )
-
+endif()
 
 # Install COVESA DLT
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(DLT automotive-dlt)
 
-if(NOT DLT_FOUND)
-    message(STATUS "---------------DLT not found--------------------")
+# Ищем предустановленный в систему DLT (модуль automotive-dlt)
+pkg_check_modules(DLT REQUIRED automotive-dlt)
 
-    CPMAddPackage(
-        NAME DLT
-        GITHUB_REPOSITORY COVESA/dlt-daemon
-        GIT_TAG v3.0.0
-        SYSTEM YES
-        FIND_PACKAGE_ARGUMENTS CONFIG
-        OPTIONS
-            "DLT_ENABLE_TESTING OFF"
-            "DLT_ENABLE_INSTALL ON"
-            "WITH_DLT_TESTS OFF"
-            "WITH_SYSTEMD OFF"
-    )
-  
-    message(STATUS "---------------DLT installed--------------------")
+message(STATUS "--------------- DLT found in system --------------------")
+message(STATUS "DLT Include dirs: ${DLT_INCLUDE_DIRS}")
+message(STATUS "DLT Libraries: ${DLT_LIBRARIES}")
+
+if(NOT TARGET DLT::dlt)
+    add_library(DLT::dlt INTERFACE IMPORTED)
+    target_include_directories(DLT::dlt INTERFACE ${DLT_INCLUDE_DIRS})
+    target_link_libraries(DLT::dlt INTERFACE ${DLT_LIBRARIES})
+    target_link_directories(DLT::dlt INTERFACE ${DLT_LIBRARY_DIRS})
 endif()
 
 # Install yaml-cpp
 
 find_package(yaml-cpp QUIET)
+if(NOT yaml-cpp_FOUND)
+    find_package(YAML-CPP QUIET)
+    if(YAML-CPP_FOUND)
+        set(yaml-cpp_FOUND TRUE)
+    endif()
+endif()
+
 if(NOT yaml-cpp_FOUND)
     message(STATUS "---------------yaml-cpp not found--------------------")
 
