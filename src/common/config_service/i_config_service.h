@@ -22,12 +22,8 @@ public:
     /// @details Each module (library) must implement this method to parse
     /// its own dedicated settings from the global configuration source.
     /// @param config_path A string ref pointing to the path of configuration file.
-<<<<<<< HEAD
     /// @return True if file is found and well-formed, false otherwise.
     virtual auto load(const std::string& config_path) -> bool = 0;
-=======
-    virtual auto load(const std::string& config_path) -> void = 0;
->>>>>>> bfb203d (Add implementation of config service base classes,)
 
     /// @brief Dynamically updates settings from the YAML source during runtime.
     /// @deprecated This method is currently not implemented from architecture point of view.

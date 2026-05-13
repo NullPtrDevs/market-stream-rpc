@@ -1,0 +1,7 @@
+logger:
+  app_id: "market-stream-rpc"
+  contexts:
+    - description: "Main application context"
+    - id: "SPSCQueue"
+  mode: "daemon" # Options: "daemon", "file"
+  
