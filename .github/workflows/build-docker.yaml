@@ -28,8 +28,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set lowercase image name
-        run: echo "IMAGE_NAME=${{ github.repository_owner }}/ci-container" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
+      - name: Prepare image tag
+        id: location
+        run: |
+          IMAGE_PATH=$(echo "${{ github.repository_owner }}/ci-container" | tr '[:upper:]' '[:lower:]')
+          echo "image_tag=${{ env.REGISTRY }}/${IMAGE_PATH}:latest" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7.1.0
@@ -37,4 +40,4 @@ jobs:
           context: .
           file: docker/ci-container.Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.location.outputs.image_tag }}
