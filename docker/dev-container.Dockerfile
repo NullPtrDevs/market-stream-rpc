@@ -1,4 +1,5 @@
-FROM ci-container:latest
+ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE}
 
 USER root
 
@@ -20,14 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tmux \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /workspace
+WORKDIR /work
+RUN chmod 777 /work
 
 RUN echo "set auto-load safe-path /" >> /etc/gdb/gdbinit
-
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100
-
-ENV GRPC_VERBOSITY=ERROR
-ENV GRPC_TRACE=all
 
 CMD ["/bin/bash"]

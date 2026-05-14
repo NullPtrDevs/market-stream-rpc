@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  market-stream-base:
+    build:
+      context: ..
+      dockerfile: docker/ci-container.Dockerfile
+
+  market-stream-dev-container:
+    build:
+      context: ..
+      dockerfile: docker/dev-container.Dockerfile
+      args:
+        BASE_IMAGE: ci-container:latest
+    image: market-stream-dev:latest
+    depends_on:
+      - market-stream-base
+    volumes:
+      - ..:/workspace:cached
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+    command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]
