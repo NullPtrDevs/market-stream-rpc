@@ -54,15 +54,34 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(DLT automotive-dlt)
 
-message(STATUS "--------------- DLT found in system --------------------")
-message(STATUS "DLT Include dirs: ${DLT_INCLUDE_DIRS}")
-message(STATUS "DLT Libraries: ${DLT_LIBRARIES}")
+if(NOT DLT_FOUND)
+    message(WARNING "-------- DLT not found in system. Installing via CPM... --------")
 
-if(NOT TARGET DLT::dlt)
-    add_library(DLT::dlt INTERFACE IMPORTED)
-    target_include_directories(DLT::dlt INTERFACE ${DLT_INCLUDE_DIRS})
-    target_link_libraries(DLT::dlt INTERFACE ${DLT_LIBRARIES})
-    target_link_directories(DLT::dlt INTERFACE ${DLT_LIBRARY_DIRS})
+    CPMAddPackage(
+        NAME dlt
+        GITHUB_REPOSITORY COVESA/dlt-daemon
+        GIT_TAG v3.0.0
+        SYSTEM YES
+        OPTIONS
+            "DLT_ENABLE_TESTING OFF"
+            "DLT_ENABLE_INSTALL ON"
+            "WITH_DLT_TESTS OFF"
+            "WITH_SYSTEMD OFF"
+    )
+
+    if(TARGET dlt AND NOT TARGET DLT::dlt)
+        add_library(DLT::dlt INTERFACE IMPORTED)
+        target_link_libraries(DLT::dlt INTERFACE dlt)
+    endif()
+else()
+    message(STATUS "--------------- DLT found in system --------------------")
+
+    if(NOT TARGET DLT::dlt)
+        add_library(DLT::dlt INTERFACE IMPORTED)
+        target_include_directories(DLT::dlt INTERFACE ${DLT_INCLUDE_DIRS})
+        target_link_libraries(DLT::dlt INTERFACE ${DLT_LIBRARIES})
+        target_link_directories(DLT::dlt INTERFACE ${DLT_LIBRARY_DIRS})
+    endif()
 endif()
 
 # Install yaml-cpp

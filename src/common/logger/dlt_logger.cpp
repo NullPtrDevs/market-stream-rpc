@@ -34,7 +34,6 @@ void common::logger::DltLogger::init(const std::string& app_id, const std::strin
 
 void common::logger::DltLogger::stop()
 {
-    int x;
     if (running_.load(std::memory_order_acquire))
     {
         while (message_queue_.size_approx() != 0)
