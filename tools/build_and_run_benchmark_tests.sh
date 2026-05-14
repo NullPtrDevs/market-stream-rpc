@@ -7,7 +7,7 @@ show_help() {
     echo "Usage: build_and_run_benchmark_tests.sh [options]"
     echo "-------------------------------------------------------------------"
     echo "Options:"
-    echo "  -cl, --clean      Generate coverage"
+    echo "  -cl, --clean        Clean build"
     echo "  -h, --help          Show this help message"
     echo -e "-------------------------------------------------------------------${NC}"
     exit 0
@@ -20,8 +20,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
 # Do no change the names!
 USE_THREAD_SANITIZER="OFF"
 USE_ADDRESS_SANITIZER="OFF"
-USE_COVERAGE="OFF"
-USE_COVERAGE_HTML="OFF"
+BUILD_COVERAGE="OFF"
 BUILD_TYPE="Release"
 CLEAN_BUILD="OFF"
 

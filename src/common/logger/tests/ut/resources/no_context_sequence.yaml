@@ -1,0 +1,8 @@
+logger:
+  app_id: "market-stream-rpc"
+  app_description: "Market Stream RPC Service"
+  contexts:
+    id: "main"
+    description: "Main application context"
+  mode: "daemon"
+  file_path: "logs/market-stream-rpc.dlt"

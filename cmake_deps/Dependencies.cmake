@@ -4,7 +4,7 @@
 set(CPM_LOCAL_PATH "${CMAKE_SOURCE_DIR}/cmake/CPM.cmake")
 
 if(NOT EXISTS "${CPM_LOCAL_PATH}")
-    message(STATUS "---------------CPM not found--------------------")
+    message(STATUS "--------------- CPM not found --------------------")
     file(DOWNLOAD
         https://github.com/cpm-cmake/CPM.cmake/releases/latest/download/get_cpm.cmake
         "${CPM_LOCAL_PATH}"
@@ -14,14 +14,14 @@ if(NOT EXISTS "${CPM_LOCAL_PATH}")
     if(NOT status_code EQUAL 0)
         message(FATAL_ERROR "Download error CPM.cmake: ${download_status}")
     endif()
-    message(STATUS "---------------CPM installed--------------------")
+    message(STATUS "--------------- CPM installed --------------------")
 endif()
 
 include("${CPM_LOCAL_PATH}")
 
 find_package(GTest REQUIRED)
 if(NOT GTest_FOUND)
-    message(FATAL_ERROR "GTest not found after installation")
+    message(FATAL_ERROR "-------- GTest not found after installation --------")
 CPMAddPackage(
   NAME googletest
   GITHUB_REPOSITORY google/googletest
@@ -35,7 +35,7 @@ endif()
 # Install google benchmark
 find_package(benchmark QUIET)
 if(NOT benchmark_FOUND)
-    message(STATUS "---------------benchmark not found--------------------")
+    message(STATUS "--------------- benchmark not found --------------------")
 CPMAddPackage(
     NAME benchmark
     GITHUB_REPOSITORY google/benchmark
@@ -48,11 +48,10 @@ CPMAddPackage(
 )
 endif()
 
-# Install COVESA DLT
 
+# Install COVESA DLT
 find_package(PkgConfig REQUIRED)
 
-# Ищем предустановленный в систему DLT (модуль automotive-dlt)
 pkg_check_modules(DLT REQUIRED automotive-dlt)
 
 message(STATUS "--------------- DLT found in system --------------------")
@@ -77,9 +76,7 @@ if(NOT yaml-cpp_FOUND)
 endif()
 
 if(NOT yaml-cpp_FOUND)
-    message(STATUS "---------------yaml-cpp not found--------------------")
-
-
+    message(STATUS "--------------- yaml-cpp not found --------------------")
     CPMAddPackage(
         NAME yaml-cpp
         GITHUB_REPOSITORY jbeder/yaml-cpp
@@ -87,7 +84,7 @@ if(NOT yaml-cpp_FOUND)
         SYSTEM YES
         FIND_PACKAGE_ARGUMENTS CONFIG
     )
-    message(STATUS "---------------yaml-cpp installed--------------------")
+    message(STATUS "--------------- yaml-cpp installed --------------------")
 
 endif()
 

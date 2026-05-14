@@ -7,11 +7,11 @@ class BinStreamApp
     +start(): bool
 }
 
-class ConfigurationBuilder
+class ConfigServiceBuilder<T>
 {
-    +build(): std::option<BinStreamAppConfig>
+    +build(): T
 }
 
-ConfigurationBuilder ..> BinStreamAppConfig
-BinStreamApp ..> ConfigurationBuilder
+ConfigServiceBuilder ..> LoggerConfigService : <<create>>
+BinStreamApp ..> ConfigServiceBuilder : <<use>>
 @enduml
