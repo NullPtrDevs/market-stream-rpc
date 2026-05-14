@@ -37,5 +37,5 @@ jobs:
           context: .
           file: docker/ci-container.Dockerfile
           push: true
-          tags: $IMAGE_NAME:latest
+          tags: ${{ env.IMAGE_NAME }}:latest
 

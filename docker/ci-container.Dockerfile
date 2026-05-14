@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libyaml-cpp-dev libgtest-dev libbenchmark-dev \
     lcov gcovr \
     clang-format-20 clang-tidy \
+    gnupg \
     && rm -rf /var/lib/apt/lists/* \
     && ldconfig \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 \

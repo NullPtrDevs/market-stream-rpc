@@ -20,7 +20,7 @@ endif()
 include("${CPM_LOCAL_PATH}")
 
 # Install google tests
-find_package(GTest REQUIRED)
+find_package(GTest QUIET)
 if(NOT GTest_FOUND)
     message(WARNING "-------- GTest not found after installation --------")
     message(STATUS "-------- Installing via CPM... --------")
@@ -52,7 +52,7 @@ endif()
 # Install COVESA DLT
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(DLT REQUIRED automotive-dlt)
+pkg_check_modules(DLT automotive-dlt)
 
 message(STATUS "--------------- DLT found in system --------------------")
 message(STATUS "DLT Include dirs: ${DLT_INCLUDE_DIRS}")
