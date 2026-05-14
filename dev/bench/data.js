@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778760872729,
+  "lastUpdate": 1778764491354,
   "repoUrl": "https://github.com/NullPtrDevs/market-stream-rpc",
   "entries": {
     "Benchmark": [
@@ -832,6 +832,36 @@ window.BENCHMARK_DATA = {
             "value": 8.199249433590834,
             "unit": "ns/iter",
             "extra": "iterations: 343887492\ncpu: 8.197185883690134 ns\nthreads: 2"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ahillodessa@gmail.com",
+            "name": "ahillodessa",
+            "username": "ahillodessa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "94549d5a05257ed15a051625aa47db6a85f86208",
+          "message": "Add pretty output for linter. (#50)",
+          "timestamp": "2026-05-14T16:12:17+03:00",
+          "tree_id": "a6c57c9de2895f9b35f3dfb18c325f87bb14ecc2",
+          "url": "https://github.com/NullPtrDevs/market-stream-rpc/commit/94549d5a05257ed15a051625aa47db6a85f86208"
+        },
+        "date": 1778764490709,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "bm_dlt_logger_push/iterations:65536",
+            "value": 24.541717529719122,
+            "unit": "ns/iter",
+            "extra": "iterations: 65536\ncpu: 24.541488647460938 ns\nthreads: 1"
           }
         ]
       }
