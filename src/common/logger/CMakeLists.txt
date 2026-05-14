@@ -7,20 +7,14 @@ add_library(${LOGGER_TARGET}
         dlt_logger_config.h
         dlt_logger_config.cpp)
 
-if(TARGET dlt)
-    set(DLT_LIBRARIES dlt)
-    target_include_directories(${LOGGER_TARGET} PUBLIC "${DLT_SOURCE_DIR}/include")
-    target_link_libraries(${LOGGER_TARGET} Genivi::dlt)
-endif()
-
 target_include_directories(${LOGGER_TARGET}
     PUBLIC
-        src/common/logger
-        ${DLT_INCLUDE_DIRS}
+         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(${LOGGER_TARGET}
     PUBLIC
+        Genivi::dlt
         yaml-cpp
         concurrentqueue
         config_service)

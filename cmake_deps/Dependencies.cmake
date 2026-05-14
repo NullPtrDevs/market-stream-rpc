@@ -55,7 +55,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(DLT automotive-dlt)
 
 if(NOT DLT_FOUND)
-    message(WARNING "-------- DLT not found in system. Installing via CPM... --------")
+       message(STATUS "-------- DLT not found in system. Installing via CPM... --------")
 
     CPMAddPackage(
         NAME dlt
@@ -64,15 +64,26 @@ if(NOT DLT_FOUND)
         SYSTEM YES
         OPTIONS
             "DLT_ENABLE_TESTING OFF"
-            "DLT_ENABLE_INSTALL ON"
+            "DLT_ENABLE_INSTALL OFF"
             "WITH_DLT_TESTS OFF"
             "WITH_SYSTEMD OFF"
     )
 
-    if(TARGET dlt AND NOT TARGET Genivi::dlt)
-        add_library(Genivi::dlt INTERFACE IMPORTED)
-        target_link_libraries(Genivi::dlt INTERFACE dlt)
-        target_include_directories(Genivi::dlt INTERFACE "${dlt_SOURCE_DIR}/src/core")
+    # After CPM builds dlt, modify its interface directories to include both
+    # the parent and subdirectory so <dlt/dlt.h> works and internal includes work
+    if(TARGET dlt)
+        # Clear existing includes and add both parent and dlt subdirectory
+        set_target_properties(dlt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "")
+        target_include_directories(dlt PUBLIC
+            $<BUILD_INTERFACE:${dlt_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${dlt_SOURCE_DIR}/include/dlt>
+            $<BUILD_INTERFACE:${dlt_BINARY_DIR}/include>
+            $<BUILD_INTERFACE:${dlt_BINARY_DIR}/include/dlt>
+        )
+    endif()
+
+    if(NOT TARGET Genivi::dlt)
+        add_library(Genivi::dlt ALIAS dlt)
     endif()
 else()
     message(STATUS "--------------- DLT found in system --------------------")
