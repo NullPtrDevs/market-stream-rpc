@@ -18,10 +18,15 @@ CLEAN_BUILD="OFF"
 source "$SCRIPT_DIR/build.sh"
 build_project
 
-echo "Formatting code..."
+echo -e "${GREEN}------------------------------------------Formatting code------------------------------------------${NC}"
+
 find "$SOURCE_DIR" -path "$BUILD_DIR" -prune -o -type f \( -name "*.cpp" -o -name "*.hpp" -o -name "*.h" \) -print0 | xargs -0 clang-format -i
 
-echo "Running static analysis..."
+echo -e "${GREEN}------------------------------------------Running static analysis------------------------------------------${NC}"
+
+if [ ! -d "${LINT_REPORT}" ]; then
+    mkdir -p "${LINT_REPORT}"
+fi
 
 run-clang-tidy \
   -clang-tidy-binary clang-tidy-18 \
@@ -33,16 +38,32 @@ run-clang-tidy \
   -extra-arg="-Wno-unknown-warning-option" \
   "^${SOURCE_DIR}/.*" 2>/dev/null | \
 awk -F: -v root="${SOURCE_DIR}/" '
+  BEGIN {
+    print "| FILE | LINE | TYPE | DIAGNOSTIC MESSAGE |"
+    print "| :--- | :--- | :--- | :--- |"
+  }
   /warning:|error:/ { 
-    file=$1; line=$2; type=$4; 
+    file = $1;
+    line = $2; 
+    type = $4; 
+    
     if (file ~ /^\/usr\// || file ~ /^\/include\//) { next; }
+    
     sub(root, "", file); 
+    rel_path = "src/" file;
+    
     gsub(/^[ \t]+|[ \t]+$/, "", type); 
-    msg=$5; 
-    for(i=6; i<=NF; i++) msg=msg ":" $i; 
+    msg = $5; 
+    for(i=6; i<=NF; i++) msg = msg ":" $i; 
     gsub(/^[ \t]+/, "", msg); 
+    gsub(/\|/, "\\|", msg);
+    
     error_key = file "_" line "_" msg; 
     if (seen[error_key]++) { next; } 
-    printf "%s|%s|%s|%s\n", file, line, type, msg 
-  }' | column -t -s '|' -N "FILE,LINE,TYPE,DIAGNOSTIC MESSAGE" | less -S
+    
+    file_link = sprintf("[%s](/%s#L%s)", file, rel_path, line);
+    
+    printf "| %s | %s | %s | %s |\n", file_link, line, type, msg 
+  }' > "${LINT_REPORT}/clang_tidy_report.md"
+
 

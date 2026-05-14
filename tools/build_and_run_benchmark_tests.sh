@@ -38,7 +38,7 @@ source "$SCRIPT_DIR/build.sh"
 
 # Create benchmark out folder
 if [ ! -d "$BENCHMARK_DIR" ]; then
-    mkdir "$BENCHMARK_DIR"
+    mkdir -p "$BENCHMARK_DIR"
 fi
 
 # Build project
