@@ -33,8 +33,6 @@ if(NOT GTest_FOUND)
     )
 endif()
 
-endif()
-
 # Install google benchmark
 find_package(benchmark QUIET)
 if(NOT benchmark_FOUND)
