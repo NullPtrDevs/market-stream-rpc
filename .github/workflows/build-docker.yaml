@@ -10,6 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ vars.GLOBAL_BUILD_CONTAINER_URL }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -30,17 +31,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare image address
-        id: location
-        run: |
-          IMAGE_PATH=$(echo "${{ github.repository_owner }}/ci-container" | tr '[:upper:]' '[:lower:]')
-          echo "image_tag=${{ env.REGISTRY }}/${IMAGE_PATH}:latest" >> $GITHUB_OUTPUT
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v7.1.0
         with:
           context: .
           file: docker/ci-container.Dockerfile
           push: true
-          tags: ${{ steps.location.outputs.image_tag }}
+          tags: $IMAGE_NAME:latest
 

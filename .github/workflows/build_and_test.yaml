@@ -15,7 +15,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/nullptrdevs/ci-container:latest
+      image: ${{ vars.GLOBAL_BUILD_CONTAINER_URL }}:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -29,21 +29,21 @@ jobs:
           CC: gcc-13
           CXX: g++-13
         run: |
-          chmod +x ${{ github.workspace }}/tools/build_and_run_tests.sh
-          ${{ github.workspace }}/tools/build_and_run_tests.sh -cov -cl
+          chmod +x $GITHUB_WORKSPACE/tools/build_and_run_tests.sh
+          $GITHUB_WORKSPACE/tools/build_and_run_tests.sh -cov -cl
 
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "${{ github.workspace }}/build/junit_reports/**/*.xml"
+          files: "$GITHUB_WORKSPACE/build/junit_reports/**/*.xml"
           comment_mode: always
 
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: "${{ github.workspace }}/${{ vars.GLOBAL_REPORTS_DIR }}/coverage_report/coverage.xml"
+          file: "$GITHUB_WORKSPACE/${{ vars.GLOBAL_REPORTS_DIR }}/coverage_report/coverage.xml"
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true

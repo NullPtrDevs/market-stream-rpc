@@ -17,7 +17,7 @@ jobs:
   DummyJob:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/nullptrdevs/ci-container:latest
+      image: ${{ vars.GLOBAL_BUILD_CONTAINER_URL }}:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
