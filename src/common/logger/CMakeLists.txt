@@ -10,7 +10,7 @@ add_library(${LOGGER_TARGET}
 if(TARGET dlt)
     set(DLT_LIBRARIES dlt)
     target_include_directories(${LOGGER_TARGET} PUBLIC "${DLT_SOURCE_DIR}/include")
-    target_link_libraries(${LOGGER_TARGET} PUBLIC dlt)
+    target_link_libraries(${LOGGER_TARGET} Genivi::dlt)
 endif()
 
 target_include_directories(${LOGGER_TARGET}
