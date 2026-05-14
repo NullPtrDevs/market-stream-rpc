@@ -4,8 +4,7 @@ build/*
 bin/
 lib/
 out/
-coverage/
-coverage_report/
+*report*/
 
 # temporary files of CMake
 CMakeCache.txt
@@ -48,6 +47,7 @@ CompileCommand.json
 *.gcov
 coverage.xml
 _tests/
+act
 
 # Logs and temporary system files
 *.log
@@ -61,3 +61,4 @@ cmake
 # Folder for generated files
 *_report
 act
+

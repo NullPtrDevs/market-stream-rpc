@@ -37,7 +37,7 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1.22.1
         with:
           tool: 'googlecpp'
-          output-file-path: ${{ github.workspace }}/benchmark_report/bench_result.json
+          output-file-path: ${{ github.workspace }}/${{ vars.GLOBAL_REPORTS_DIR }}/benchmark_report/bench_result.json
           alert-threshold: "120%"
           fail-threshold: "150%"
           comment-always: true

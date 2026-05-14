@@ -17,7 +17,7 @@ void common::logger::DltLogger::init(const std::string& app_id, const std::strin
     DLT_REGISTER_APP(app_id.c_str(), app_description.c_str());
     DLT_REGISTER_CONTEXT(ctx_main_, "MAIN", "Main Log Context");
 
-    DltConfig config = DltConfig::from_yaml("config/config.yaml");
+    DltConfig config = DltConfig::from_yaml(DEFAULT_CONFIG_PATH);
 
     for (const auto& context : config.contexts_)
     {
