@@ -18,6 +18,9 @@ if [[ -z "${ENV_SH_INCLUDED}" ]]; then
     export CMAKE_DIR="$PROJECT_ROOT/cmake"
     export SOURCE_DIR="$PROJECT_ROOT/src"
 
+    # proto files submodule folder
+    export API_CONTRACTS_DIR="$PROJECT_ROOT/api_contracts"
+
     export RED='\033[0;31m'
     export GREEN='\033[0;32m'
     export NC='\033[0m' # No Color
