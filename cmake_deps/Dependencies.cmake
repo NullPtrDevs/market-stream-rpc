@@ -37,17 +37,17 @@ endif()
 find_package(benchmark QUIET)
 if(NOT benchmark_FOUND)
     message(STATUS "--------------- benchmark not found --------------------")
-CPMAddPackage(
-    NAME benchmark
-    GITHUB_REPOSITORY google/benchmark
-    GIT_TAG        v1.9.5
-    SYSTEM YES
-    FIND_PACKAGE_ARGUMENTS CONFIG
-    OPTIONS
-        "BENCHMARK_ENABLE_TESTING OFF"
-        "BENCHMARK_ENABLE_INSTALL OFF"
-)
-
+    CPMAddPackage(
+        NAME benchmark
+        GITHUB_REPOSITORY google/benchmark
+        GIT_TAG        v1.9.5
+        SYSTEM YES
+        FIND_PACKAGE_ARGUMENTS CONFIG
+        OPTIONS
+            "BENCHMARK_ENABLE_TESTING OFF"
+            "BENCHMARK_ENABLE_INSTALL OFF"
+    )
+endif()
 
 # Install COVESA DLT
 find_package(PkgConfig REQUIRED)
