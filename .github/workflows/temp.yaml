@@ -1,0 +1,46 @@
+name: Dummy job
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+  packages: read
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "**" ]
+  workflow_dispatch:
+
+jobs:
+  DummyJob:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/nullptrdevs/ci-container:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: List files in workspace
+        run: |
+          pwd
+          ls $(pwd)
+          ls -la $GITHUB_WORKSPACE
+        continue-on-error: true
+
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: List files in workspace after checkout
+        run: |
+          pwd
+          ls $(pwd)
+          ls -la $GITHUB_WORKSPACE
+        continue-on-error: true
+
+      - name: Run a dummy command
+        run: $GITHUB_WORKSPACE/tools/build.sh
+        continue-on-error: true
+
