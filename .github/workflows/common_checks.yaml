@@ -25,11 +25,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake lcov gcovr libgtest-dev g++-13 libc6 wget lsb-release software-properties-common gnupg
-
       - name: Run Build and Tests
         env:
           CC: gcc-13

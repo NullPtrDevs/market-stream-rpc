@@ -89,12 +89,13 @@ if(NOT yaml-cpp_FOUND)
 endif()
 
 # Install concurrentqueue
-
 CPMAddPackage(
     NAME concurrentqueue
     GITHUB_REPOSITORY cameron314/concurrentqueue
     GIT_TAG v1.0.5
+    SYSTEM YES
     DOWNLOAD_ONLY YES
+    FIND_PACKAGE_ARGUMENTS CONFIG
 )
 
 if (concurrentqueue_ADDED)
