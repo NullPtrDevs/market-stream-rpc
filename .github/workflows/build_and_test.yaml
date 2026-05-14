@@ -4,18 +4,20 @@ permissions:
   contents: write
   pull-requests: write
   checks: write
+  packages: read
 
 on:
   push:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "**" ]
+  workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/${{ github.repository }}/ci-container:latest
+      image: ghcr.io/nullptrdevs/ci-container:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -23,11 +25,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake lcov g++-13 gcovr
 
       - name: Run Build and Tests
         env:
