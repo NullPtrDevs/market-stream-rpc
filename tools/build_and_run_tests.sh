@@ -42,7 +42,7 @@ echo "--------------------------------Setup coverage dir------------------------
 
 # prepare coverage folder
 rm -rf "${COVERAGE_DIR}"
-mkdir "${COVERAGE_DIR}"
+mkdir -p "${COVERAGE_DIR}"
 
 # parse parameters
 while [[ "$#" -gt 0 ]]; do

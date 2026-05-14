@@ -1,4 +1,4 @@
-name: Common checks(linter, formatter, tests, coverage)
+name: Build and run tests with coverage.
 
 permissions:
   contents: write
@@ -43,7 +43,7 @@ jobs:
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: "${{ github.workspace }}/coverage_report/coverage.xml"
+          file: "${{ github.workspace }}/${{ vars.GLOBAL_REPORTS_DIR }}/coverage_report/coverage.xml"
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true

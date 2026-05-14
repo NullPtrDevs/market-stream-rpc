@@ -29,3 +29,8 @@ TEST(DltLoggerTest, StopIsIdempotentWhenLoggerIsNotInitialized)
     EXPECT_NO_THROW(common::logger::DltLogger::instance().stop());
     EXPECT_NO_THROW(common::logger::DltLogger::instance().stop());
 }
+
+TEST(DltLoggerTest, InitDoesNotThrow)
+{
+    EXPECT_NO_THROW(common::logger::DltLogger::instance().init("", ""));
+}
