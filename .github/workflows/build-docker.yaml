@@ -1,12 +1,10 @@
 name: Build Docker Image
 
 on:
-  pull_request:
-    branches: [ master ]
   workflow_dispatch:
-  #push:
-    # paths:
-    #   - 'docker/ci-container.Dockerfile'
+  push:
+    paths:
+      - 'docker/ci-container.Dockerfile'
 
 env:
   REGISTRY: ghcr.io
