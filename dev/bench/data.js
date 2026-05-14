@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778683594069,
+  "lastUpdate": 1778758566151,
   "repoUrl": "https://github.com/NullPtrDevs/market-stream-rpc",
   "entries": {
     "Benchmark": [
@@ -594,6 +594,125 @@ window.BENCHMARK_DATA = {
             "value": 11.68270656065814,
             "unit": "ns/iter",
             "extra": "iterations: 241582644\ncpu: 11.681793730182033 ns\nthreads: 2"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ahillodessa@gmail.com",
+            "name": "ahillodessa",
+            "username": "ahillodessa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52ed1da31b78e36f1ca95393746813e97feba94a",
+          "message": "Add implementation of config service base classes, (#35)",
+          "timestamp": "2026-05-14T14:33:45+03:00",
+          "tree_id": "7ed9c149a048a99691161888b75b1359559adcde",
+          "url": "https://github.com/NullPtrDevs/market-stream-rpc/commit/52ed1da31b78e36f1ca95393746813e97feba94a"
+        },
+        "date": 1778758565810,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Queue_push_pop",
+            "value": 2.3276144462122117,
+            "unit": "ns/iter",
+            "extra": "iterations: 1203717994\ncpu: 2.3271575119446126 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/1024",
+            "value": 2431.0422949446256,
+            "unit": "ns/iter",
+            "extra": "iterations: 1031258\ncpu: 2430.837768046405 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_LargeRange/4096",
+            "value": 8406.153926079,
+            "unit": "ns/iter",
+            "extra": "iterations: 359952\ncpu: 8405.563238987419 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/128",
+            "value": 364.3114893351752,
+            "unit": "ns/iter",
+            "extra": "iterations: 7250611\ncpu: 364.278580384467 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/256",
+            "value": 573.2733393758626,
+            "unit": "ns/iter",
+            "extra": "iterations: 5184361\ncpu: 573.2234460524644 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/512",
+            "value": 1142.5776390338237,
+            "unit": "ns/iter",
+            "extra": "iterations: 2284624\ncpu: 1142.4819287550154 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/1024",
+            "value": 2254.772833641515,
+            "unit": "ns/iter",
+            "extra": "iterations: 1225582\ncpu: 2254.647591103655 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/2048",
+            "value": 3512.3332758278,
+            "unit": "ns/iter",
+            "extra": "iterations: 805720\ncpu: 3512.0360907014815 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity/4096",
+            "value": 14374.208822813905,
+            "unit": "ns/iter",
+            "extra": "iterations: 209661\ncpu: 14373.51112033235 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_BigO",
+            "value": null,
+            "unit": "ns/iter",
+            "extra": "iterations: undefined\ncpu: undefined ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Queue_Complexity_RMS",
+            "unit": "undefined/iter",
+            "extra": "iterations: undefined\ncpu: undefined undefined\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/100",
+            "value": 32315.7981522277,
+            "unit": "ns/iter",
+            "extra": "iterations: 168419\ncpu: 16705.076262179446 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/512",
+            "value": 33883.01261423302,
+            "unit": "ns/iter",
+            "extra": "iterations: 156807\ncpu: 17842.638625826676 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/4096",
+            "value": 45782.57745368079,
+            "unit": "ns/iter",
+            "extra": "iterations: 82417\ncpu: 34332.90639067185 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue_Latency/10000",
+            "value": 71958.85034426374,
+            "unit": "ns/iter",
+            "extra": "iterations: 42845\ncpu: 64153.257252888354 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_SPSC_Queue/threads:2",
+            "value": 30.75368650685081,
+            "unit": "ns/iter",
+            "extra": "iterations: 80265550\ncpu: 30.749300366097287 ns\nthreads: 2"
           }
         ]
       }
