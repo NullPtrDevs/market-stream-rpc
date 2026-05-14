@@ -5,6 +5,7 @@ permissions:
   pull-requests: write
   checks: write
   packages: read
+
 on:
   push:
     branches: [ "main", "master" ]
