@@ -1,0 +1,17 @@
+app:
+  name: "market-stream-rpc"
+  version: "0.1.0"
+
+grpc_server:
+  host: "0.0.0.0"
+  port: "50051"
+
+binance_connector:
+  stream_link: "link"
+  port: "443"
+
+logger:
+  app_id: "market-stream-rpc"
+  app_description: "Market Stream RPC Service"
+  mode: "daemon" # Options: "daemon", "file"
+  file_path: "logs/market-stream-rpc.dlt"

@@ -1,7 +1,26 @@
 @startuml
-class BinStreamAppConfig
+
+abstract class IConfigService<T>
+{
+    +load()
+    +update(): T
+    +get_config_data(): T
+}
+
+class LoggerConfig
 {
     binance_stream_host: std::string
     binance_stream_port: std::string
 }
+
+class LoggerConfigService
+{
+    +load() override
+    +update(): LoggerConfig override
+    +get_config_data(): LoggerConfig override
+}
+
+IConfigService <|-- LoggerConfigService
+LoggerConfigService *-- LoggerConfig
+
 @enduml
