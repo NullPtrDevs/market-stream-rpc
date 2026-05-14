@@ -4,6 +4,7 @@ permissions:
   contents: write
   pull-requests: write
   checks: write
+  packages: read
 
 on:
   push:
@@ -15,7 +16,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/${{ github.repository }}/ci-container:latest
+      image: ghcr.io/nullptrdevs/ci-container:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}

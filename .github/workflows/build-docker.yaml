@@ -28,7 +28,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare image tag
+      - name: Prepare image address
         id: location
         run: |
           IMAGE_PATH=$(echo "${{ github.repository_owner }}/ci-container" | tr '[:upper:]' '[:lower:]')
