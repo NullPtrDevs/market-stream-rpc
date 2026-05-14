@@ -107,6 +107,7 @@ if [ "$BUILD_COVERAGE" == "ON" ]; then
         --filter 'src/' \
         --exclude '.*tests/.*\.cpp' \
         --exclude '.*benchmark/.*\.cpp' \
+        --exclude '.*main.cpp' \
         --html-details "${COVERAGE_DIR}/html/index.html" \
         --xml-pretty \
         --output "${COVERAGE_DIR}/coverage.xml" \

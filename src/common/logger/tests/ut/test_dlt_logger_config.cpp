@@ -1,33 +1,38 @@
 #include <gtest/gtest.h>
 
-#include <filesystem>
-
 #include "dlt_logger_config.h"
 
-namespace fs = std::filesystem;
+constexpr std::string_view RESOURCES_FOLDER{"resources/"};
 
 // NOLINTBEGIN(readability-function-cognitive-complexity)
+
 class LoggerConfigServiceFixture : public ::testing::Test
 {
 protected:
     void SetUp() override
     {
-        empty_config_path_ = resources_folder_ / "empty_config.yaml";
-        normal_config_path_ = resources_folder_ / "normal_config.yaml";
-        ill_format_config_path_ = resources_folder_ / "ill_format_config.yaml";
+        empty_config_path_ = std::string(RESOURCES_FOLDER) + "empty_config.yaml";
+        normal_config_path_ = std::string(RESOURCES_FOLDER) + "normal_config.yaml";
     }
     void TearDown() override {}
+
     // GTest fixture members can be protected, false positive
     // NOLINTBEGIN(cppcoreguidelines-non-private-member-variables-in-classes)
-    fs::path resources_folder_{"resources"};
-    fs::path empty_path_{""};
-    fs::path empty_config_path_{""};
-    fs::path normal_config_path_{""};
-    fs::path ill_format_config_path_{""};
+    std::string empty_path_;
+    std::string empty_config_path_;
+    std::string normal_config_path_;
     // NOLINTEND(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 using namespace common::logger::config;
+
+// Here is no implementation for update yet.
+
+TEST_F(LoggerConfigServiceFixture, TestUpdateEmptyPathExceptNoException)
+{
+    DltLoggerConfigService config_service;
+    EXPECT_NO_THROW(config_service.update());
+}
 
 TEST_F(LoggerConfigServiceFixture, TestLoadEmptyPathExceptNoException)
 {
@@ -70,11 +75,25 @@ TEST_F(LoggerConfigServiceFixture, TestLoadCorrectPathExceptValidData)
         ASSERT_FALSE(context.description_.empty());
     }
 }
+class LoggerConfigServiceParamFixture : public ::testing::Test, public testing::WithParamInterface<std::string>
+{
+protected:
+    void SetUp() override {};
+};
 
-TEST_F(LoggerConfigServiceFixture, TestLoadIllFormedExceptFalse)
+INSTANTIATE_TEST_SUITE_P(IllFormedConfigTests, LoggerConfigServiceParamFixture,
+                         testing::Values(std::string(RESOURCES_FOLDER) + "ill_format_config.yaml", std::string(RESOURCES_FOLDER) + "no_app_id.yaml",
+                                         std::string(RESOURCES_FOLDER) + "no_context_descr.yaml",
+                                         std::string(RESOURCES_FOLDER) + "no_context_id.yaml", std::string(RESOURCES_FOLDER) + "no_context.yaml",
+                                         std::string(RESOURCES_FOLDER) + "no_context_sequence.yaml",
+                                         std::string(RESOURCES_FOLDER) + "no_file_path.yaml", std::string(RESOURCES_FOLDER) + "no_logger.yaml",
+                                         std::string(RESOURCES_FOLDER) + "no_mode.yaml",
+                                         std::string(RESOURCES_FOLDER) + "empty_logger_section.yaml"));
+
+TEST_P(LoggerConfigServiceParamFixture, TestLoadIllFormedExceptFalse)
 {
     DltLoggerConfigService config_service;
-    EXPECT_FALSE(config_service.load(ill_format_config_path_));
+    const auto& current_path = GetParam();
+    EXPECT_FALSE(config_service.load(current_path));
 }
-
 // NOLINTEND(readability-function-cognitive-complexity)

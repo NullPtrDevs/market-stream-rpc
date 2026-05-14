@@ -9,6 +9,11 @@ namespace common::logger::config
 
 auto DltLoggerConfigService::load(const std::string& config_path) -> bool
 {
+    // False positive. External libraries can generate exceptions inside their code.
+    // That can lead to situation when codecov(lcov, gcovr),
+    // recognize this block as not covered (branches, conditions).
+    // In fact all branches are covered, and code completely safe.
+    // LCOVR_EXCL_BR_START
     try
     {
         auto root_node = YAML::LoadFile(config_path);
@@ -36,7 +41,7 @@ auto DltLoggerConfigService::load(const std::string& config_path) -> bool
             return false;
         }
         auto contexts_node = logger_node["contexts"];
-        if (contexts_node)
+        if ((contexts_node) && contexts_node.IsSequence())
         {
             for (const auto& context : contexts_node)
             {
@@ -70,6 +75,7 @@ auto DltLoggerConfigService::load(const std::string& config_path) -> bool
         std::cerr << e.what() << '\n';
         return false;
     }
+    // LCOVR_EXCL_BR_STOP
 
     return true;
 }

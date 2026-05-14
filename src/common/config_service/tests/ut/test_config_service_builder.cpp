@@ -1,24 +1,18 @@
 #include <gtest/gtest.h>
 
-#include <type_traits>
-
 #include "config_service_builder.h"
 
 struct TestConfigService
 {
 };
 
-TEST(ConfigServiceBuilderTest, IsReturnValueNullPtr)
-{
-    auto ret_val = config_service::ConfigServiceBuilder<TestConfigService>::build();
-    ASSERT_TRUE(ret_val.get() == nullptr);
-}
-
 TEST(ConfigServiceBuilderTest, IsReturnValueNotNullPtr)
 {
     struct TestData
     {
     };
+    // Don't need to calculate coverage of unit tests itself.
+    // LCOV_EXCL_START
     struct TestConfigServiceInherit : public config_service::IConfigService<TestData>
     {
         auto load(const std::string& raw_yaml) -> bool override
@@ -34,6 +28,7 @@ TEST(ConfigServiceBuilderTest, IsReturnValueNotNullPtr)
             return {};
         };
     };
+    // LCOV_EXCL_STOP
     auto ret_val = config_service::ConfigServiceBuilder<TestConfigServiceInherit>::build();
     ASSERT_TRUE(ret_val.get() != nullptr);
 }

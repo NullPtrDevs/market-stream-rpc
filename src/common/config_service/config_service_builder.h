@@ -1,17 +1,16 @@
 #pragma once
 
 #include <memory>
-#include <type_traits>
 
 #include "i_config_service.h"
 
 namespace config_service
 {
 
-template <typename S, typename U>
-concept DerivedFromBase = requires(S type) { []<typename V>(IConfigService<V>&) {}(type); };
+template <typename ConfigServiceT>
+concept DerivedFromBase = requires(ConfigServiceT type) { []<typename ConfigData>(IConfigService<ConfigData>&) {}(type); };
 
-template <typename T>
+template <DerivedFromBase T>
 class ConfigServiceBuilder
 {
 public:
@@ -26,11 +25,7 @@ public:
 
     static auto build() -> IConfigServicePtr
     {
-        if constexpr (DerivedFromBase<T, void>)
-        {
-            return std::make_unique<T>();
-        }
-        return nullptr;
+        return std::make_unique<T>();
     };
 };
 

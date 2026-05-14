@@ -23,23 +23,26 @@ find "$SOURCE_DIR" -path "$BUILD_DIR" -prune -o -type f \( -name "*.cpp" -o -nam
 
 echo "Running static analysis..."
 
-find "$SOURCE_DIR" -path "$BUILD_DIR" -prune -o -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.hpp" \)  -print0 | \
-    xargs -0 -r run-clang-tidy \
-    -p "$BUILD_DIR" \
-    -header-filter=".*" \
-    -extra-arg="-std=c++20" \
-    -extra-arg="-Wall" \
-    -extra-arg="-Wno-unknown-warning-option" \
-                        2>/dev/null | \
-                        awk -F: -v root="${SOURCE_DIR}/" '/warning:|error:/ { 
-                            file=$1; line=$2; type=$4; 
-                            sub(root, "", file);
-                            gsub(/^[ \t]+|[ \t]+$/, "", type);                           
-                            msg=$5; for(i=6; i<=NF; i++) msg=msg ":" $i;
-                            gsub(/^[ \t]+/, "", msg);
-                            error_key = file "_" line "_" msg;
-                            if (seen[error_key]++) {
-                                next;
-                            }
-                            printf "%s|%s|%s|%s\n", file, line, type, msg 
-                        }' | column -t -s '|' -N "FILE,LINE,TYPE,DIAGNOSTIC MESSAGE" | less -S
+run-clang-tidy \
+  -clang-tidy-binary clang-tidy-18 \
+  -j 4 \
+  -p "$BUILD_DIR" \
+  -header-filter="^${SOURCE_DIR}/.*" \
+  -extra-arg="-std=c++20" \
+  -extra-arg="-Wall" \
+  -extra-arg="-Wno-unknown-warning-option" \
+  "^${SOURCE_DIR}/.*" 2>/dev/null | \
+awk -F: -v root="${SOURCE_DIR}/" '
+  /warning:|error:/ { 
+    file=$1; line=$2; type=$4; 
+    if (file ~ /^\/usr\// || file ~ /^\/include\//) { next; }
+    sub(root, "", file); 
+    gsub(/^[ \t]+|[ \t]+$/, "", type); 
+    msg=$5; 
+    for(i=6; i<=NF; i++) msg=msg ":" $i; 
+    gsub(/^[ \t]+/, "", msg); 
+    error_key = file "_" line "_" msg; 
+    if (seen[error_key]++) { next; } 
+    printf "%s|%s|%s|%s\n", file, line, type, msg 
+  }' | column -t -s '|' -N "FILE,LINE,TYPE,DIAGNOSTIC MESSAGE" | less -S
+
