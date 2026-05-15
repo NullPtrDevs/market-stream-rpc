@@ -26,6 +26,7 @@ CPMAddPackage(
   GIT_TAG v1.17.0
   SYSTEM YES
   FIND_PACKAGE_ARGUMENTS CONFIG
+  FIND_PACKAGE googletest
 )
 
 # Install google benchmark
@@ -35,6 +36,7 @@ CPMAddPackage(
     GIT_TAG        v1.9.5
     SYSTEM YES
     FIND_PACKAGE_ARGUMENTS CONFIG
+    FIND_PACKAGE benchmark
     OPTIONS
         "BENCHMARK_ENABLE_TESTING OFF"
         "BENCHMARK_ENABLE_INSTALL OFF"
@@ -72,6 +74,7 @@ CPMAddPackage(
     GIT_TAG yaml-cpp-0.9.0
     SYSTEM YES
     FIND_PACKAGE_ARGUMENTS CONFIG
+    FIND_PACKAGE yaml-cpp
 )
 
 # Install concurrentqueue
@@ -82,9 +85,47 @@ CPMAddPackage(
     SYSTEM YES
     DOWNLOAD_ONLY YES
     FIND_PACKAGE_ARGUMENTS CONFIG
+    FIND_PACKAGE concurrentqueue
 )
 
 if (concurrentqueue_ADDED)
     add_library(concurrentqueue INTERFACE)
     target_include_directories(concurrentqueue INTERFACE ${concurrentqueue_SOURCE_DIR})
 endif()
+
+# Install gRPC(protobuf included)
+CPMAddPackage(
+        NAME gRPC
+        GITHUB_REPOSITORY grpc/grpc
+        GIT_TAG        v1.80.0
+        SYSTEM YES
+        FIND_PACKAGE_ARGUMENTS CONFIG
+        FIND_PACKAGE gRPC
+        OPTIONS
+            # 1. Provide only what your C++ project needs
+            "gRPC_BUILD_GRPC_CPP_PLUGIN ON"
+            "gRPC_PROTOBUF_PROVIDER module"
+            
+            # 2. Kill all alternative language plugins (Massive time saver)
+            "gRPC_BUILD_CSHARP_EXT OFF"
+            "gRPC_BUILD_GRPC_CSHARP_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_NODE_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_PHP_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_PYTHON_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_RUBY_PLUGIN OFF"
+            
+            # 3. Strip out test and benchmark suites
+            "gRPC_BUILD_TESTS OFF"
+            "protobuf_BUILD_TESTS OFF"
+            "gRPC_BUILD_CODEGEN ON"
+            
+            # 4. Prevent system-level installation side effects
+            "gRPC_INSTALL OFF"
+            "protobuf_INSTALL OFF"
+            "ABSL_ENABLE_INSTALL OFF"
+            "utf8_range_ENABLE_INSTALL OFF"
+            
+            # 5. Rely on host system's OpenSSL to skip building BoringSSL from scratch
+            "gRPC_SSL_PROVIDER package"
+    )

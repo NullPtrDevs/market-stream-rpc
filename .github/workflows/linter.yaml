@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          submodules: recursive
 
       - name: Configure CMake (Generate compile_commands.json)
         run: |
