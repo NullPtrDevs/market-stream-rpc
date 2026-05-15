@@ -88,3 +88,39 @@ if (concurrentqueue_ADDED)
     add_library(concurrentqueue INTERFACE)
     target_include_directories(concurrentqueue INTERFACE ${concurrentqueue_SOURCE_DIR})
 endif()
+
+# Install gRPC(protobuf included)
+CPMAddPackage(
+        NAME gRPC
+        GITHUB_REPOSITORY grpc/grpc
+        GIT_TAG        v1.80.0
+        SYSTEM YES
+        FIND_PACKAGE_ARGUMENTS CONFIG
+        OPTIONS
+            # 1. Provide only what your C++ project needs
+            "gRPC_BUILD_GRPC_CPP_PLUGIN ON"
+            "gRPC_PROTOBUF_PROVIDER module"
+            
+            # 2. Kill all alternative language plugins (Massive time saver)
+            "gRPC_BUILD_CSHARP_EXT OFF"
+            "gRPC_BUILD_GRPC_CSHARP_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_NODE_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_PHP_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_PYTHON_PLUGIN OFF"
+            "gRPC_BUILD_GRPC_RUBY_PLUGIN OFF"
+            
+            # 3. Strip out test and benchmark suites
+            "gRPC_BUILD_TESTS OFF"
+            "protobuf_BUILD_TESTS OFF"
+            "gRPC_BUILD_CODEGEN ON"
+            
+            # 4. Prevent system-level installation side effects
+            "gRPC_INSTALL OFF"
+            "protobuf_INSTALL OFF"
+            "ABSL_ENABLE_INSTALL OFF"
+            "utf8_range_ENABLE_INSTALL OFF"
+            
+            # 5. Rely on host system's OpenSSL to skip building BoringSSL from scratch
+            "gRPC_SSL_PROVIDER package"
+    )

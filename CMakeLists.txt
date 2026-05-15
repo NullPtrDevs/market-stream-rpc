@@ -24,6 +24,9 @@ if(${CMAKE_CXX_FLAGS} MATCHES "coverage")
     add_link_options(--coverage)
 endif()
 
+# Generated files/libraries
+add_subdirectory("generated/proto_api")
+
 # Sources
 add_subdirectory(src/common/spsc_queue)
 add_subdirectory(src/common/logger)
@@ -46,4 +49,5 @@ add_executable(main_cpp src/main.cpp)
 # For testing purposes, remove once it is not needed anymore.
 target_link_directories(main_cpp PRIVATE src/common/logger)
 target_include_directories(main_cpp PRIVATE src/common/config_service src/common/logger)
-target_link_libraries(main_cpp PRIVATE spsc_lock_free_queue logger config_service)
+#  For test purposes link generated_api
+target_link_libraries(main_cpp PRIVATE spsc_lock_free_queue logger config_service generated_api)
