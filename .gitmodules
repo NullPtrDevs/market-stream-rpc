@@ -1,0 +1,3 @@
+[submodule "api_contracts"]
+	path = api_contracts
+	url = ../market-stream-api-contracts.git
