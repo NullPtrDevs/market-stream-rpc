@@ -60,4 +60,6 @@ cmake
 
 # Folder for generated files
 *_report
+act
 
+.devcontainer/devcontainer-lock.json

@@ -4,16 +4,23 @@ permissions:
   contents: write
   pull-requests: write
   checks: write
+  packages: read
 
 on:
   push:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "**" ]
+  workflow_dispatch:
 
 jobs:
   linter:
     runs-on: ubuntu-24.04
+    container:
+      image: ${{ vars.GLOBAL_BUILD_CONTAINER_URL }}:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -22,7 +29,7 @@ jobs:
       - name: Configure CMake (Generate compile_commands.json)
         run: |
           cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-      
+
       - name: Run C/C++ linter action
         uses: cpp-linter/cpp-linter-action@v2.18.0
         id: linter
@@ -33,7 +40,7 @@ jobs:
           file-annotations: true
           extra-args: '-header-filter=src/.* -Wno-unknown-warning-option -std=c++20 -Wall'
           style: "file"
-          database: '${{ github.workspace }}/build'
+          database: '$GITHUB_WORKSPACE/build'
           tidy-checks: ""
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
           step-summary: true

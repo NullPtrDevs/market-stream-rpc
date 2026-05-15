@@ -1,38 +1,45 @@
 name: Benchmark report.
-  
+
 permissions:
   contents: write
   pull-requests: write
   checks: write
+  packages: read
 
 on:
   push:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "**" ]
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   benchmark:
     runs-on: ubuntu-latest
+    container:
+      image: ${{ vars.GLOBAL_BUILD_CONTAINER_URL }}:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-
-      - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build g++-13 lcov gcovr
+      - name: Configure Git Safe Directory
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
 
       - name: Run Benchmarks
         env:
           CC: gcc-13
           CXX: g++-13
         run: |
-          chmod +x ${{ github.workspace }}/tools/build_and_run_benchmark_tests.sh
-          ${{ github.workspace }}/tools/build_and_run_benchmark_tests.sh
-  
+          chmod +x $GITHUB_WORKSPACE//tools/build_and_run_benchmark_tests.sh
+          $GITHUB_WORKSPACE//tools/build_and_run_benchmark_tests.sh
+
       - name: Store and Compare Benchmarks
         uses: benchmark-action/github-action-benchmark@v1.22.1
         with:
