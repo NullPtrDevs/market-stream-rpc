@@ -1,6 +1,9 @@
 
 # Install CPM
 
+
+set(CPM_SOURCE_CACHE "$ENV{HOME}/.cache/CPM" CACHE PATH "CPM Source Cache")
+
 set(CPM_LOCAL_PATH "${CMAKE_SOURCE_DIR}/cmake/CPM.cmake")
 
 if(NOT EXISTS "${CPM_LOCAL_PATH}")
@@ -20,29 +23,29 @@ endif()
 include("${CPM_LOCAL_PATH}")
 
 # Install google tests
-find_package(GTest QUIET)
-if(NOT GTest_FOUND)
-    message(WARNING "-------- GTest not found after installation --------")
-    message(STATUS "-------- Installing via CPM... --------")
+find_package(googletest QUIET)
+if(NOT googletest_FOUND)
     CPMAddPackage(
         NAME googletest
         GITHUB_REPOSITORY google/googletest
-        GIT_TAG v1.17.0
+        GIT_TAG v1.14.0
         SYSTEM YES
         FIND_PACKAGE_ARGUMENTS CONFIG
+        FIND_PACKAGE googletest
     )
 endif()
 
-# Install google benchmark
+# Install benchmark
 find_package(benchmark QUIET)
 if(NOT benchmark_FOUND)
     message(STATUS "--------------- benchmark not found --------------------")
     CPMAddPackage(
         NAME benchmark
         GITHUB_REPOSITORY google/benchmark
-        GIT_TAG        v1.9.5
+        GIT_TAG v1.8.3
         SYSTEM YES
         FIND_PACKAGE_ARGUMENTS CONFIG
+        FIND_PACKAGE benchmark
         OPTIONS
             "BENCHMARK_ENABLE_TESTING OFF"
             "BENCHMARK_ENABLE_INSTALL OFF"
@@ -51,7 +54,6 @@ endif()
 
 # Install COVESA DLT
 find_package(PkgConfig REQUIRED)
-
 pkg_check_modules(DLT automotive-dlt)
 
 if(NOT DLT_FOUND)
@@ -97,7 +99,6 @@ else()
 endif()
 
 # Install yaml-cpp
-
 find_package(yaml-cpp QUIET)
 if(NOT yaml-cpp_FOUND)
     find_package(YAML-CPP QUIET)
@@ -107,27 +108,28 @@ if(NOT yaml-cpp_FOUND)
 endif()
 
 if(NOT yaml-cpp_FOUND)
-    message(STATUS "--------------- yaml-cpp not found --------------------")
     CPMAddPackage(
         NAME yaml-cpp
         GITHUB_REPOSITORY jbeder/yaml-cpp
         GIT_TAG yaml-cpp-0.9.0
         SYSTEM YES
         FIND_PACKAGE_ARGUMENTS CONFIG
+        FIND_PACKAGE yaml-cpp
     )
-    message(STATUS "--------------- yaml-cpp installed --------------------")
 
 endif()
 
 # Install concurrentqueue
-CPMAddPackage(
-    NAME concurrentqueue
-    GITHUB_REPOSITORY cameron314/concurrentqueue
-    GIT_TAG v1.0.5
-    SYSTEM YES
-    DOWNLOAD_ONLY YES
-    FIND_PACKAGE_ARGUMENTS CONFIG
-)
+find_package(concurrentqueue QUIET)
+if(NOT concurrentqueue_FOUND)
+    CPMAddPackage(
+        NAME concurrentqueue
+        GITHUB_REPOSITORY cameron314/concurrentqueue
+        GIT_TAG v1.0.4
+        SYSTEM YES
+        DOWNLOAD_ONLY YES
+    )
+endif()
 
 if (concurrentqueue_ADDED)
     add_library(concurrentqueue INTERFACE)

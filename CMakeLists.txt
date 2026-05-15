@@ -2,10 +2,19 @@ cmake_minimum_required(VERSION 3.23)
 
 project(market-stream-rpc VERSION 0.1.0)
 
+# Chage CPM source cache to avoid downloading dependencies every time, it is useful for CI and local development.
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
+    set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
+    message(STATUS "ccache instolled: ${CCACHE_PROGRAM}")
+endif()
+
 # Compiler options
 # C++ 20
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Application configuration file path.

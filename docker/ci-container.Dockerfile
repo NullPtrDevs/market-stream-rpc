@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++-13 \
     make \
     ninja-build \
+    ccache \
     git \
     pkg-config \
     libssl-dev \
@@ -16,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libyaml-cpp-dev \
     libgtest-dev \
     libbenchmark-dev \
+    libconcurrentqueue-dev \
     lcov \
     gcovr \
     python3 \
